@@ -21,55 +21,58 @@
   --glow-strength: 0.35;
 }
 
-/* dark: amber phosphor on near-black */
+/* dark: green phosphor on true black */
 :root,
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #0c0b08;
-  --bg-raised: #151209;
-  --fg: #ffb642;
-  --fg-dim: #b47f2e;
-  --fg-bright: #ffd79a;
-  --accent: #57c7ff;
+  --bg: #020403;
+  --bg-raised: #0a120c;
+  --fg: #3be06b;
+  --fg-dim: #2b8f48;
+  --fg-bright: #c6ffd6;
+  --accent: #58d7c9;
   --danger: #ff6b53;
-  --border: #3a2e14;
-  --selection-bg: #ffb642;
-  --selection-fg: #0c0b08;
+  --border: #143a22;
+  --selection-bg: #3be06b;
+  --selection-fg: #020403;
+  --glow-rgb: 59, 224, 107;
 }
 
 [data-theme='light'] {
   color-scheme: light;
 
-  --bg: #ece6d6;
-  --bg-raised: #f5f1e6;
-  --fg: #2b2416;
-  --fg-dim: #6b5f45;
-  --fg-bright: #000000;
-  --accent: #1c5a86;
+  --bg: #e3ebdd;
+  --bg-raised: #eef3e9;
+  --fg: #17361f;
+  --fg-dim: #4a6b52;
+  --fg-bright: #06170c;
+  --accent: #196b52;
   --danger: #a3301b;
-  --border: #b9ad91;
-  --selection-bg: #2b2416;
-  --selection-fg: #ece6d6;
+  --border: #a9bda6;
+  --selection-bg: #17361f;
+  --selection-fg: #e3ebdd;
   --scanline-opacity: 0.03;
   --glow-strength: 0;
+  --glow-rgb: 23, 54, 31;
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     color-scheme: light;
-    --bg: #ece6d6;
-    --bg-raised: #f5f1e6;
-    --fg: #2b2416;
-    --fg-dim: #6b5f45;
-    --fg-bright: #000000;
-    --accent: #1c5a86;
+    --bg: #e3ebdd;
+    --bg-raised: #eef3e9;
+    --fg: #17361f;
+    --fg-dim: #4a6b52;
+    --fg-bright: #06170c;
+    --accent: #196b52;
     --danger: #a3301b;
-    --border: #b9ad91;
-    --selection-bg: #2b2416;
-    --selection-fg: #ece6d6;
+    --border: #a9bda6;
+    --selection-bg: #17361f;
+    --selection-fg: #e3ebdd;
     --scanline-opacity: 0.03;
     --glow-strength: 0;
+    --glow-rgb: 23, 54, 31;
   }
 }
 
@@ -100,7 +103,7 @@ body {
   min-height: 100vh;
   padding: 0;
   text-shadow: 0 0 calc(var(--glow-strength) * 6px)
-    rgba(255, 182, 66, calc(var(--glow-strength) * 0.5));
+    rgba(var(--glow-rgb), calc(var(--glow-strength) * 0.5));
 }
 
 [data-theme='light'] body {
@@ -197,7 +200,7 @@ img {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255, 182, 66, 0.02);
+    background: rgba(var(--glow-rgb), 0.02);
     animation: crt-flicker 6s steps(2, end) infinite;
   }
 }

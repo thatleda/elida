@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Section from './Section.astro';
 import Prose from './Prose.astro';
 import ReadingNow from './ReadingNow.astro';
+import TypedCommand from './TypedCommand.astro';
 import { getPage, getReviews } from '../lib/sanity';
 import { useTranslations, type Locale } from '../i18n';
 
@@ -27,7 +28,7 @@ const contactEmail = 'leda@sent.com';
 
 <Base lang={lang} title={title} description={description}>
   <section class="hero panel">
-    <p class="prompt"><span aria-hidden="true">&gt;</span> whoami</p>
+    <TypedCommand word="whoami" class="prompt" />
     <h1>{hero?.title ?? 'Leda Wolf'}</h1>
     <p class="tagline">{t('hero.tagline')}</p>
     <p class="pitch" set:html={t('hero.pitch')} />

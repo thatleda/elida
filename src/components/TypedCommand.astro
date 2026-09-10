@@ -1,0 +1,94 @@
+---
+interface Props {
+  /** The command that types itself out, deletes, and types again. */
+  word?: string;
+  class?: string;
+}
+
+const { word = 'whoami', class: className } = Astro.props;
+---
+
+<p class:list={['cmd-line', className]}>
+  <span class="visually-hidden">&gt; {word}</span>
+  <span class="cmd-visible" aria-hidden="true">
+    <span class="sigil">&gt;</span>
+    <span class="cmd-word" data-word={word}>{word}</span><span class="caret"></span>
+  </span>
+</p>
+
+<script is:inline>
+  (() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reduce.matches) return;
+
+    const TYPE = 130;
+    const ERASE = 70;
+    const HOLD_FULL = 2000;
+    const HOLD_EMPTY = 600;
+
+    for (const el of document.querySelectorAll('.cmd-word[data-word]')) {
+      const full = el.getAttribute('data-word') || '';
+      let i = full.length;
+      let erasing = true;
+
+      const tick = () => {
+        el.textContent = full.slice(0, i);
+        if (erasing) {
+          if (i === 0) {
+            erasing = false;
+            return setTimeout(tick, HOLD_EMPTY);
+          }
+          i -= 1;
+          return setTimeout(tick, ERASE);
+        }
+        if (i === full.length) {
+          erasing = true;
+          return setTimeout(tick, HOLD_FULL);
+        }
+        i += 1;
+        setTimeout(tick, TYPE);
+      };
+
+      setTimeout(tick, HOLD_FULL);
+    }
+  })();
+</script>
+
+<style>
+  .cmd-line {
+    color: var(--fg-dim);
+    margin-top: 0;
+    font-variant-ligatures: none;
+  }
+
+  .cmd-visible {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5ch;
+  }
+
+  .cmd-word {
+    white-space: pre;
+  }
+
+  .caret {
+    display: inline-block;
+    width: 0.6ch;
+    height: 1em;
+    transform: translateY(0.12em);
+    background: var(--fg);
+    margin-left: 0.1ch;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .caret {
+      animation: caret-blink 1.05s steps(1, end) infinite;
+    }
+  }
+
+  @keyframes caret-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
