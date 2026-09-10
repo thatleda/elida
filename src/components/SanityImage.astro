@@ -31,8 +31,8 @@ const displayHeight = dims ? Math.round(displayWidth / dims.aspectRatio) : undef
 const base = imageUrl(image).auto('format').fit('max')
 const src = base.width(displayWidth).url()
 const srcset = widths
-  .filter(w => !dims || w <= dims.width)
-  .map(w => `${base.width(w).url()} ${w}w`)
+  .filter(width => !dims || width <= dims.width)
+  .map(width => `${base.width(width).url()} ${width}w`)
   .join(', ')
 
 const altText = alt ?? image.altText ?? '';

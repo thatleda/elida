@@ -3,6 +3,7 @@ import type { ClientConfig } from '@sanity/client'
 import type { Locale } from '../i18n/config'
 import { createClient } from '@sanity/client'
 import { createImageUrlBuilder } from '@sanity/image-url'
+import groq from 'groq'
 
 const config: ClientConfig = {
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
@@ -67,34 +68,34 @@ export interface Review {
   picture: LinkedImage | null
 }
 
-const pageProjection = `{
+const pageProjection = groq`{
   _id, _createdAt, _updatedAt, title, excerpt, slug, content,
   "banner": banner.asset->{ _id, altText, "lqip": metadata.lqip, "dimensions": metadata.dimensions }
 }`
 
 export async function getPage(slug: string, lang: Locale): Promise<Page | null> {
   return sanity.fetch(
-    `*[_type == "page" && slug.current == $slug && language == $lang][0] ${pageProjection}`,
+    groq`*[_type == "page" && slug.current == $slug && language == $lang][0] ${pageProjection}`,
     { slug, lang },
   )
 }
 
 export async function getArticles(): Promise<Article[]> {
   return sanity.fetch(
-    `*[_type == "article"] | order(_createdAt desc) ${pageProjection}`,
+    groq`*[_type == "article"] | order(_createdAt desc) ${pageProjection}`,
   )
 }
 
 export async function getArticle(slug: string): Promise<Article | null> {
   return sanity.fetch(
-    `*[_type == "article" && slug.current == $slug][0] ${pageProjection}`,
+    groq`*[_type == "article" && slug.current == $slug][0] ${pageProjection}`,
     { slug },
   )
 }
 
 export async function getReviews(): Promise<Review[]> {
   return sanity.fetch(
-    `*[_type == "review"] | order(_createdAt desc){
+    groq`*[_type == "review"] | order(_createdAt desc){
       _id, _createdAt, reviewer, comment,
       "picture": picture.asset->{ _id, altText, "lqip": metadata.lqip, "dimensions": metadata.dimensions }
     }`,

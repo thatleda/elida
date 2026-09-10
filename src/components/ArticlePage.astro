@@ -13,7 +13,7 @@ interface Props {
 
 const { lang, article } = Astro.props
 const t = useTranslations(lang)
-const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' });
+const dateformat = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <Base
@@ -28,7 +28,8 @@ const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 
     <h1>{article.title}</h1>
     <p class="meta">
       {t('article.published')}
-      <time datetime={article._createdAt}>{df.format(new Date(article._createdAt))}</time>
+      {' '}
+      <time datetime={article._createdAt}>{dateformat.format(new Date(article._createdAt))}</time>
     </p>
     {
       article.banner && (

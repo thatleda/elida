@@ -15,8 +15,9 @@ const html = blocks
       components: {
         types: {
           image: ({ value }) => {
-            if (!value?.asset?._ref)
-return ''
+            if (!value?.asset?._ref) {
+              return ''
+            }
             const src = imageUrl(value.asset._ref).width(1200).fit('max').auto('format').url()
             const alt = (value.alt ?? '').replace(/"/g, '&quot;')
             return `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" />`

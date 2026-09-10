@@ -14,11 +14,8 @@ const nf = new Intl.NumberFormat(lang);
 ---
 
 {
-  !current
+  current
 ? (
-    <p>{t('reading.none')}</p>
-  )
-: (
     <div class="book">
       {current.cover && (
         <img
@@ -48,6 +45,8 @@ const nf = new Intl.NumberFormat(lang);
         )}
       </div>
     </div>
+  ): (
+    <p>{t('reading.none')}</p>
   )
 }
 
