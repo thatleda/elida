@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import { getArticles } from '../lib/sanity';
+import { path, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const articles = await getArticles();
+
+const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base
+  lang={lang}
+  title={`ELIDA — ${t('ramblings.title')}`}
+  description={t('ramblings.description')}
+>
+  <section class="panel">
+    <p class="prompt"><span aria-hidden="true">&gt;</span> ls ~/ramblings</p>
+    <h1>{t('ramblings.title')}</h1>
+    <p>{t('ramblings.description')}</p>
+  </section>
+
+  {
+    articles.length === 0 ? (
+      <p class="panel">{t('ramblings.empty')}</p>
+    ) : (
+      <ol class="index panel" reversed>
+        {articles.map((article) => (
+          <li>
+            <a href={path(`/ramblings/${article.slug.current}`, lang)}>{article.title}</a>
+            <span class="meta">
+              <time datetime={article._createdAt}>{df.format(new Date(article._createdAt))}</time>
+            </span>
+            {article.excerpt && <p class="excerpt">{article.excerpt}</p>}
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</Base>
+
+<style>
+  .prompt {
+    color: var(--fg-dim);
+    margin-top: 0;
+  }
+
+  .index {
+    list-style: none;
+    margin: 0;
+    padding: clamp(1rem, 3vw, 1.75rem);
+    counter-reset: entry;
+  }
+
+  .index li {
+    padding: 0.9rem 0;
+    border-bottom: var(--border-width) dashed var(--border);
+  }
+
+  .index li:first-child {
+    padding-top: 0;
+  }
+
+  .index li:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .index li::before {
+    counter-increment: entry;
+    content: '[' counter(entry, decimal-leading-zero) '] ';
+    color: var(--fg-dim);
+  }
+
+  .index a {
+    font-weight: 700;
+  }
+
+  .meta {
+    display: block;
+    color: var(--fg-dim);
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+  }
+
+  .excerpt {
+    margin: 0.5rem 0 0;
+    max-width: var(--measure);
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import Prose from './Prose.astro';
+import { path, useTranslations, type Locale } from '../i18n';
+import type { Article } from '../lib/sanity';
+
+interface Props {
+  lang: Locale;
+  article: Article;
+}
+
+const { lang, article } = Astro.props;
+const t = useTranslations(lang);
+const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base
+  lang={lang}
+  title={`ELIDA — ${article.title}`}
+  description={article.excerpt}
+>
+  <article class="panel">
+    <p class="prompt">
+      <span aria-hidden="true">&gt;</span> cat ~/ramblings/{article.slug.current}
+    </p>
+    <h1>{article.title}</h1>
+    <p class="meta">
+      {t('article.published')}
+      <time datetime={article._createdAt}>{df.format(new Date(article._createdAt))}</time>
+    </p>
+    <Prose blocks={article.content} />
+    <hr />
+    <p><a href={path('/ramblings', lang)}>&lt;&lt; {t('article.back')}</a></p>
+  </article>
+</Base>
+
+<style>
+  .prompt {
+    color: var(--fg-dim);
+    margin-top: 0;
+    word-break: break-all;
+  }
+
+  .meta {
+    color: var(--fg-dim);
+    font-size: 0.85rem;
+  }
+</style>

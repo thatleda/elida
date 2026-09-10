@@ -1,0 +1,61 @@
+---
+import '../styles/terminal.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { alternates, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  description?: string;
+}
+
+const { lang, title, description } = Astro.props;
+const t = useTranslations(lang);
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const langAlternates = alternates(Astro.url, Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    {
+      langAlternates.map((alt) => (
+        <link rel="alternate" hreflang={alt.locale} href={alt.href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={langAlternates[0]?.href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('elida-theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('skip.content')}</a>
+    <div class="crt-overlay" aria-hidden="true"></div>
+    <SiteHeader lang={lang} />
+    <main id="main" class="shell" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter lang={lang} />
+  </body>
+</html>

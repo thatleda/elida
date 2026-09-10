@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from './Section.astro';
+import Prose from './Prose.astro';
+import ReadingNow from './ReadingNow.astro';
+import { getPage, getReviews } from '../lib/sanity';
+import { useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const [hero, who, previously, reviews] = await Promise.all([
+  getPage('hero', lang),
+  getPage('who', lang),
+  getPage('previously', lang),
+  getReviews(),
+]);
+
+const title = hero?.title ? `ELIDA — ${hero.title}` : 'ELIDA';
+const description = hero?.excerpt ?? t('hero.tagline');
+const contactEmail = 'leda@sent.com';
+---
+
+<Base lang={lang} title={title} description={description}>
+  <section class="hero panel">
+    <p class="prompt"><span aria-hidden="true">&gt;</span> whoami</p>
+    <h1>{hero?.title ?? 'Leda Wolf'}</h1>
+    <p class="tagline">{t('hero.tagline')}</p>
+    <p class="pitch" set:html={t('hero.pitch')} />
+    {hero?.content && <Prose blocks={hero.content} />}
+  </section>
+
+  {
+    who && (
+      <Section id="who" heading={t('section.who')}>
+        <Prose blocks={who.content} />
+      </Section>
+    )
+  }
+
+  {
+    previously && (
+      <Section id="previously" heading={previously.title || t('section.previously')}>
+        <Prose blocks={previously.content} />
+      </Section>
+    )
+  }
+
+  {
+    reviews.length > 0 && (
+      <Section id="reviews" heading={t('section.reviews')}>
+        <ul class="reviews">
+          {reviews.map((review) => (
+            <li>
+              <blockquote>{review.comment}</blockquote>
+              <p class="reviewer">— {review.reviewer}</p>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  <Section id="contact" heading={t('section.contact')}>
+    <ReadingNow lang={lang} />
+    <hr />
+    <p>{t('contact.leda')}</p>
+    <p><a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
+  </Section>
+</Base>
+
+<style>
+  .hero .prompt {
+    color: var(--fg-dim);
+    margin-top: 0;
+  }
+
+  .hero h1 {
+    margin: 0.3rem 0;
+  }
+
+  .tagline {
+    font-size: 1.1rem;
+  }
+
+  .reviews {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .reviews blockquote {
+    margin: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+  }
+
+  .reviewer {
+    color: var(--fg-dim);
+    margin: 0.4rem 0 0;
+  }
+</style>

@@ -1,0 +1,135 @@
+---
+import { getReadingStatus } from '../lib/hardcover';
+import { useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { current, challenge, lastReviewed } = await getReadingStatus();
+const nf = new Intl.NumberFormat(lang);
+---
+
+{
+  !current ? (
+    <p>{t('reading.none')}</p>
+  ) : (
+    <div class="book">
+      {current.cover && (
+        <img
+          src={current.cover}
+          alt={`${current.title} — ${current.author}`}
+          width="120"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+      <div>
+        <p class="label">{t('reading.title')}</p>
+        <h3>
+          {current.title}
+          {current.year && <span class="year"> ({current.year})</span>}
+        </h3>
+        <p>
+          {t('reading.by')} <em>{current.author}</em>
+        </p>
+        {challenge && (
+          <p class="challenge">
+            <label>
+              {challenge.description}: {challenge.progress} {t('ramblings.of')} {challenge.goal}
+              <progress max={challenge.goal} value={challenge.progress} />
+            </label>
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+{
+  lastReviewed && (
+    <div class="book">
+      {lastReviewed.cover && (
+        <img
+          src={lastReviewed.cover}
+          alt={`${lastReviewed.title} — ${lastReviewed.author}`}
+          width="120"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+      <div>
+        <p class="label">{t('reading.finished')}</p>
+        <h3>
+          {lastReviewed.title}
+          {lastReviewed.year && <span class="year"> ({lastReviewed.year})</span>}
+        </h3>
+        <p>
+          {t('reading.by')} <em>{lastReviewed.author}</em>
+        </p>
+        {lastReviewed.rating != null && (
+          <p>
+            {t('reading.rating')}: {nf.format(lastReviewed.rating)} / 5 {t('reading.stars')}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .book {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .book + .book {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: var(--border-width) solid var(--border);
+  }
+
+  .book img {
+    border: 1px solid var(--border);
+    flex: none;
+  }
+
+  .book h3 {
+    margin: 0.2rem 0;
+  }
+
+  .book p {
+    margin: 0.2rem 0;
+  }
+
+  .label {
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
+
+  .year {
+    color: var(--fg-dim);
+  }
+
+  .challenge label {
+    display: block;
+  }
+
+  progress {
+    display: block;
+    width: min(100%, 24rem);
+    margin-top: 0.4rem;
+    accent-color: var(--fg);
+  }
+
+  @media (max-width: 30rem) {
+    .book {
+      flex-direction: column;
+    }
+  }
+</style>
