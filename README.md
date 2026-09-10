@@ -61,6 +61,9 @@ src/
 - [ ] Ramblings index: the faux-terminal with key-map navigation
       (`j`/`k`/`enter`/`/`) as a React island over real `<a>` links.
 - [ ] A real command prompt on the home page (`ls`, `cd`, `lang de`, `theme`).
+- [x] `Loader` component — the underscore cursor walks E→L→I and parks on the
+      I, so it reads `EL_DA`. Not wired anywhere yet; for the terminal island
+      or a first-visit boot splash.
 - [ ] Pagination for ramblings once the list gets long.
 - [ ] OG images.
 - [ ] Decide on `@astrojs/react` — kept for the islands above; until one ships

@@ -1,0 +1,106 @@
+---
+interface Props {
+  /** Accessible status text announced to screen readers. */
+  label?: string;
+  class?: string;
+}
+
+const { label = 'Loading', class: className } = Astro.props;
+
+// The underscore cursor walks in from the front — E, L, I — and parks on the
+// I, replacing it, so the word reads EL_DA: ELIDA collapsing back toward LEDA.
+---
+
+<span class:list={['loader', className]} role="status" aria-live="polite">
+  <span class="visually-hidden">{label}…</span>
+  <span class="word" aria-hidden="true">
+    <span class="cell">E</span>
+    <span class="cell">L</span>
+    <span class="cell i">I</span>
+    <span class="cell">D</span>
+    <span class="cell">A</span>
+    <span class="cursor">_</span>
+  </span>
+</span>
+
+<style>
+  .loader {
+    display: inline-block;
+  }
+
+  .word {
+    --advance: calc(1ch + 0.12em);
+    position: relative;
+    display: inline-grid;
+    grid-auto-flow: column;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--fg-bright);
+  }
+
+  .cell {
+    width: 1ch;
+    text-align: center;
+  }
+
+  .cursor {
+    position: absolute;
+    left: 0;
+    inset-block: 0;
+    width: 1ch;
+    text-align: center;
+    color: var(--fg);
+    letter-spacing: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cursor {
+      animation: elida-walk 2s steps(1, end) infinite;
+    }
+    .cell.i {
+      animation: elida-drop 2s steps(1, end) infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      transform: translateX(calc(var(--advance) * 2));
+      animation: elida-blink 1.1s steps(1, end) infinite;
+    }
+    .cell.i {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes elida-walk {
+    0%,
+    22% {
+      transform: translateX(0);
+    }
+    33%,
+    44% {
+      transform: translateX(var(--advance));
+    }
+    55%,
+    100% {
+      transform: translateX(calc(var(--advance) * 2));
+    }
+  }
+
+  @keyframes elida-drop {
+    0%,
+    54% {
+      visibility: visible;
+    }
+    55%,
+    100% {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes elida-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
