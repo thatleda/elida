@@ -1,16 +1,18 @@
 ---
-import Base from '../layouts/Base.astro';
-import Prose from './Prose.astro';
-import { path, useTranslations, type Locale } from '../i18n';
-import type { Article } from '../lib/sanity';
+import type { Locale } from '../i18n'
+import type { Article } from '../lib/sanity'
+import { path, useTranslations } from '../i18n'
+import Base from '../layouts/Base.astro'
+import Prose from './Prose.astro'
+import SanityImage from './SanityImage.astro'
 
 interface Props {
-  lang: Locale;
-  article: Article;
+  lang: Locale
+  article: Article
 }
 
-const { lang, article } = Astro.props;
-const t = useTranslations(lang);
+const { lang, article } = Astro.props
+const t = useTranslations(lang)
 const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
@@ -28,6 +30,16 @@ const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 
       {t('article.published')}
       <time datetime={article._createdAt}>{df.format(new Date(article._createdAt))}</time>
     </p>
+    {
+      article.banner && (
+        <SanityImage
+          image={article.banner}
+          eager
+          class="banner"
+          sizes="(max-width: 48rem) 100vw, 44rem"
+        />
+      )
+    }
     <Prose blocks={article.content} />
     <hr />
     <p><a href={path('/ramblings', lang)}>&lt;&lt; {t('article.back')}</a></p>
@@ -44,5 +56,12 @@ const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 
   .meta {
     color: var(--fg-dim);
     font-size: 0.85rem;
+  }
+
+  article :global(.banner) {
+    width: 100%;
+    max-height: 22rem;
+    object-fit: cover;
+    margin: 1.5rem 0;
   }
 </style>

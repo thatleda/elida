@@ -1,6 +1,15 @@
+trustPolicy: no-downgrade
+shellEmulator: true
+minimumReleaseAgeExcludePrune: true
+
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - semver@6.3.1
+
 packages:
   - .
 
 allowBuilds:
   esbuild: true
+  msw: true
   sharp: true

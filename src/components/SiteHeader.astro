@@ -1,16 +1,16 @@
 ---
-import { alternates, path, stripLocale, useTranslations, type Locale } from '../i18n';
-import { localeNames, locales } from '../i18n/config';
+import type { Locale } from '../i18n'
+import { path, stripLocale, useTranslations } from '../i18n'
+import { localeNames, locales } from '../i18n/config'
 
 interface Props {
-  lang: Locale;
+  lang: Locale
 }
 
-const { lang } = Astro.props;
-const t = useTranslations(lang);
+const { lang } = Astro.props
+const t = useTranslations(lang)
 
-const here = stripLocale(Astro.url.pathname).replace(/\/$/, '') || '/';
-const langLinks = alternates(Astro.url, Astro.site);
+const here = stripLocale(Astro.url.pathname).replace(/\/$/, '') || '/'
 
 const nav = [
   { href: path('/#who', lang), label: t('nav.who') },
@@ -30,7 +30,7 @@ const nav = [
   <nav aria-label={t('nav.menu')}>
     <ul>
       {
-        nav.map((item) => (
+        nav.map(item => (
           <li>
             <a
               href={item.href}
@@ -47,20 +47,17 @@ const nav = [
   <div class="controls">
     <div class="lang" role="group" aria-label={t('nav.language')}>
       {
-        locales.map((locale) => {
-          const link = langLinks.find((l) => l.locale === locale)!;
-          return (
-            <a
-              href={link.href}
-              lang={locale}
-              hreflang={locale}
-              aria-current={locale === lang ? 'true' : undefined}
-            >
-              {locale.toUpperCase()}
-              <span class="visually-hidden"> — {localeNames[locale]}</span>
-            </a>
-          );
-        })
+        locales.map(locale => (
+          <a
+            href={path(here, locale)}
+            lang={locale}
+            hreflang={locale}
+            aria-current={locale === lang ? 'true' : undefined}
+          >
+            {locale.toUpperCase()}
+            <span class="visually-hidden"> — {localeNames[locale]}</span>
+          </a>
+        ))
       }
     </div>
 
@@ -72,24 +69,26 @@ const nav = [
 </header>
 
 <script is:inline>
-  (() => {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    const root = document.documentElement;
-    const sync = () => {
-      const isLight = root.dataset.theme === 'light';
-      btn.setAttribute('aria-pressed', String(isLight));
-    };
-    sync();
-    btn.addEventListener('click', () => {
-      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
-      root.dataset.theme = next;
-      try {
-        localStorage.setItem('elida-theme', next);
-      } catch {}
-      sync();
-    });
-  })();
+(() => {
+  const btn = document.getElementById('theme-toggle')
+  if (!btn)
+    return
+  const root = document.documentElement
+  const sync = () => {
+    const isLight = root.dataset.theme === 'light'
+    btn.setAttribute('aria-pressed', String(isLight))
+  }
+  sync()
+  btn.addEventListener('click', () => {
+    const next = root.dataset.theme === 'light' ? 'dark' : 'light'
+    root.dataset.theme = next
+    try {
+      localStorage.setItem('elida-theme', next)
+    }
+    catch {}
+    sync()
+  })
+})()
 </script>
 
 <style>

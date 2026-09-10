@@ -1,19 +1,19 @@
 ---
-import Base from '../layouts/Base.astro';
-import Prose from './Prose.astro';
-import { getPage } from '../lib/sanity';
-import { type Locale } from '../i18n';
+import type { Locale } from '../i18n'
+import Base from '../layouts/Base.astro'
+import { getPage } from '../lib/sanity'
+import Prose from './Prose.astro'
 
 interface Props {
-  lang: Locale;
-  slug: string;
+  lang: Locale
+  slug: string
 }
 
-const { lang, slug } = Astro.props;
-const page = await getPage(slug, lang);
+const { lang, slug } = Astro.props
+const page = await getPage(slug, lang)
 
 if (!page) {
-  return new Response(null, { status: 404 });
+  return new Response(null, { status: 404 })
 }
 ---
 

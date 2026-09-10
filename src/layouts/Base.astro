@@ -1,19 +1,20 @@
 ---
-import '../styles/terminal.css';
-import SiteHeader from '../components/SiteHeader.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import { alternates, useTranslations, type Locale } from '../i18n';
+import type { Locale } from '../i18n'
+import SiteFooter from '../components/SiteFooter.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+import { alternates, useTranslations } from '../i18n'
+import '../styles/terminal.css'
 
 interface Props {
-  lang: Locale;
-  title: string;
-  description?: string;
+  lang: Locale
+  title: string
+  description?: string
 }
 
-const { lang, title, description } = Astro.props;
-const t = useTranslations(lang);
+const { lang, title, description } = Astro.props
+const t = useTranslations(lang)
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString()
 const langAlternates = alternates(Astro.url, Astro.site);
 ---
 
@@ -26,7 +27,7 @@ const langAlternates = alternates(Astro.url, Astro.site);
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonical} />
     {
-      langAlternates.map((alt) => (
+      langAlternates.map(alt => (
         <link rel="alternate" hreflang={alt.locale} href={alt.href} />
       ))
     }
@@ -41,12 +42,12 @@ const langAlternates = alternates(Astro.url, Astro.site);
     <script is:inline>
       (() => {
         try {
-          const stored = localStorage.getItem('elida-theme');
-          if (stored === 'light' || stored === 'dark') {
-            document.documentElement.dataset.theme = stored;
-          }
-        } catch {}
-      })();
+          const stored = localStorage.getItem('elida-theme')
+          if (stored === 'light' || stored === 'dark')
+            document.documentElement.dataset.theme = stored
+        }
+        catch {}
+      })()
     </script>
   </head>
   <body>

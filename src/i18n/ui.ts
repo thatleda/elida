@@ -1,13 +1,9 @@
-import type { Locale } from './config';
+import type { Locale } from './config'
 
-/**
- * UI strings. Long-form content lives in Sanity; this is only chrome:
- * navigation, labels, and the handful of sentences that never change.
- */
 export const ui = {
   en: {
-    'hero.tagline': "I'm a software engineer",
-    'hero.pitch': "Let's see if I'm a <u>good fit</u> for your company.",
+    'hero.tagline': 'I\'m a software engineer',
+    'hero.pitch': 'Let\'s see if I\'m a <u>good fit</u> for your company.',
 
     'nav.menu': 'Main navigation',
     'nav.language': 'Language',
@@ -33,11 +29,11 @@ export const ui = {
     'reading.none': 'Not reading anything at the moment',
 
     'contact.leda':
-      "If you have developed a strong desire to communicate or collaborate, please don't hesitate and write to:",
+      'If you have developed a strong desire to communicate or collaborate, please don\'t hesitate and write to:',
 
     'ramblings.title': 'Unhinged ramblings',
     'ramblings.description':
-      "You have reached the coveted index of Leda Wolf's select wisdom nuggets. Good for you!",
+      'You have reached the coveted index of Leda Wolf\'s select wisdom nuggets. Good for you!',
     'ramblings.next': 'Next',
     'ramblings.previous': 'Previous',
     'ramblings.page': 'Page',
@@ -101,6 +97,6 @@ export const ui = {
     'terminal.prompt': 'Gib einen Befehl ein, oder drücke ? für Hilfe',
     'skip.content': 'Zum Inhalt springen',
   },
-} as const satisfies Record<Locale, Record<string, string>>;
+} as const satisfies Record<Locale, Record<string, string>>
 
-export type UIKey = keyof (typeof ui)['en'];
+export type UIKey = keyof (typeof ui)['en']

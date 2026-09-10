@@ -1,11 +1,11 @@
 ---
 interface Props {
-  id?: string;
-  heading?: string;
-  headingLevel?: 2 | 3;
+  id?: string
+  heading?: string
+  headingLevel?: 2 | 3
 }
 
-const { id, heading, headingLevel = 2 } = Astro.props;
+const { id, heading, headingLevel = 2 } = Astro.props
 const Heading = `h${headingLevel}` as const;
 ---
 

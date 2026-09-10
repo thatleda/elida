@@ -1,15 +1,16 @@
 ---
-import Base from '../layouts/Base.astro';
-import { getArticles } from '../lib/sanity';
-import { path, useTranslations, type Locale } from '../i18n';
+import type { Locale } from '../i18n'
+import { path, useTranslations } from '../i18n'
+import Base from '../layouts/Base.astro'
+import { getArticles } from '../lib/sanity'
 
 interface Props {
-  lang: Locale;
+  lang: Locale
 }
 
-const { lang } = Astro.props;
-const t = useTranslations(lang);
-const articles = await getArticles();
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const articles = await getArticles()
 
 const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' });
 ---
@@ -26,11 +27,13 @@ const df = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 
   </section>
 
   {
-    articles.length === 0 ? (
+    articles.length === 0
+? (
       <p class="panel">{t('ramblings.empty')}</p>
-    ) : (
+    )
+: (
       <ol class="index panel" reversed>
-        {articles.map((article) => (
+        {articles.map(article => (
           <li>
             <a href={path(`/ramblings/${article.slug.current}`, lang)}>{article.title}</a>
             <span class="meta">

@@ -1,13 +1,13 @@
 ---
-import ArticlePage from '../../../components/ArticlePage.astro';
-import { getArticles } from '../../../lib/sanity';
+import ArticlePage from '../../../components/ArticlePage.astro'
+import { getArticles } from '../../../lib/sanity'
 
 export async function getStaticPaths() {
-  const articles = await getArticles();
-  return articles.map((article) => ({
+  const articles = await getArticles()
+  return articles.map(article => ({
     params: { slug: article.slug.current },
     props: { article },
-  }));
+  }))
 }
 
 const { article } = Astro.props;

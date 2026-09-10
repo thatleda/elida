@@ -1,44 +1,69 @@
 ---
-import Base from '../layouts/Base.astro';
-import Section from './Section.astro';
-import Prose from './Prose.astro';
-import ReadingNow from './ReadingNow.astro';
-import TypedCommand from './TypedCommand.astro';
-import { getPage, getReviews } from '../lib/sanity';
-import { useTranslations, type Locale } from '../i18n';
+import type { Locale } from '../i18n'
+import { useTranslations } from '../i18n'
+import Base from '../layouts/Base.astro'
+import { getPage, getReviews } from '../lib/sanity'
+import Prose from './Prose.astro'
+import ReadingNow from './ReadingNow.astro'
+import SanityImage from './SanityImage.astro'
+import Section from './Section.astro'
+import TypedCommand from './TypedCommand.astro'
 
 interface Props {
-  lang: Locale;
+  lang: Locale
 }
 
-const { lang } = Astro.props;
-const t = useTranslations(lang);
+const { lang } = Astro.props
+const t = useTranslations(lang)
 
 const [hero, who, previously, reviews] = await Promise.all([
   getPage('hero', lang),
   getPage('who', lang),
   getPage('previously', lang),
   getReviews(),
-]);
+])
 
-const title = hero?.title ? `ELIDA — ${hero.title}` : 'ELIDA';
-const description = hero?.excerpt ?? t('hero.tagline');
+const title = hero?.title ? `ELIDA — ${hero.title}` : 'ELIDA'
+const description = hero?.excerpt ?? t('hero.tagline')
 const contactEmail = 'leda@sent.com';
 ---
 
 <Base lang={lang} title={title} description={description}>
   <section class="hero panel">
-    <TypedCommand word="whoami" class="prompt" />
-    <h1>{hero?.title ?? 'Leda Wolf'}</h1>
-    <p class="tagline">{t('hero.tagline')}</p>
-    <p class="pitch" set:html={t('hero.pitch')} />
-    {hero?.content && <Prose blocks={hero.content} />}
+    <div class="hero-text">
+      <TypedCommand word="whoami" class="prompt" />
+      <h1>{hero?.title ?? 'Leda Wolf'}</h1>
+      <p class="tagline">{t('hero.tagline')}</p>
+      <p class="pitch" set:html={t('hero.pitch')} />
+      {hero?.content && <Prose blocks={hero.content} />}
+    </div>
+    {
+      hero?.banner && (
+        <SanityImage
+          image={hero.banner}
+          eager
+          widths={[240, 360, 480]}
+          sizes="(max-width: 40rem) 40vw, 240px"
+          class="hero-portrait"
+        />
+      )
+    }
   </section>
 
   {
     who && (
       <Section id="who" heading={t('section.who')}>
-        <Prose blocks={who.content} />
+        <div class="who-grid">
+          {who.banner && (
+            <SanityImage
+              image={who.banner}
+              widths={[240, 360, 480]}
+              sizes="(max-width: 40rem) 40vw, 220px"
+              class="who-portrait"
+            />
+          )}
+          <Prose blocks={who.content} />
+        </div>
       </Section>
     )
   }
@@ -55,10 +80,21 @@ const contactEmail = 'leda@sent.com';
     reviews.length > 0 && (
       <Section id="reviews" heading={t('section.reviews')}>
         <ul class="reviews">
-          {reviews.map((review) => (
+          {reviews.map(review => (
             <li>
-              <blockquote>{review.comment}</blockquote>
-              <p class="reviewer">— {review.reviewer}</p>
+              {review.picture && (
+                <SanityImage
+                  image={review.picture}
+                  alt={`Photo of ${review.reviewer}`}
+                  widths={[80, 160]}
+                  sizes="72px"
+                  class="avatar"
+                />
+              )}
+              <div>
+                <blockquote>{review.comment}</blockquote>
+                <p class="reviewer">— {review.reviewer}</p>
+              </div>
             </li>
           ))}
         </ul>
@@ -75,6 +111,17 @@ const contactEmail = 'leda@sent.com';
 </Base>
 
 <style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 1.5rem 2rem;
+    align-items: start;
+  }
+
+  .hero-text {
+    flex: 1 1 20rem;
+  }
+
   .hero .prompt {
     color: var(--fg-dim);
     margin-top: 0;
@@ -84,8 +131,25 @@ const contactEmail = 'leda@sent.com';
     margin: 0.3rem 0;
   }
 
+  .hero :global(.hero-portrait) {
+    flex: 0 0 auto;
+    width: clamp(9rem, 30%, 14rem);
+  }
+
   .tagline {
     font-size: 1.1rem;
+  }
+
+  .who-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .who-grid {
+      grid-template-columns: 13rem 1fr;
+      align-items: start;
+    }
   }
 
   .reviews {
@@ -94,6 +158,20 @@ const contactEmail = 'leda@sent.com';
     padding: 0;
     display: grid;
     gap: 1.5rem;
+  }
+
+  .reviews li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .reviews :global(.avatar) {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
   }
 
   .reviews blockquote {

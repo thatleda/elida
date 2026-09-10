@@ -4,6 +4,11 @@ dist/
 # generated types
 .astro/
 
+# test artifacts
+playwright-report/
+test-results/
+coverage/
+
 # dependencies
 node_modules/
 
@@ -23,3 +28,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# vscode local history extension
+.vscode/.history/
+.history/

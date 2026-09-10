@@ -1,14 +1,6 @@
-/**
- * Hardcover reading status, fetched at build time.
- *
- * Trade-off: "currently reading" is only as fresh as the last deploy. If that
- * gets annoying, promote this to a server island or wire a scheduled Netlify
- * build hook — the query itself stays the same.
- */
+const ENDPOINT = 'https://api.hardcover.app/v1/graphql'
 
-const ENDPOINT = 'https://api.hardcover.app/v1/graphql';
-
-const READING_QUERY = /* GraphQL */ `
+const READING_QUERY = `
   query reading {
     me {
       goals(where: { archived: { _eq: false } }) {
@@ -53,53 +45,53 @@ const READING_QUERY = /* GraphQL */ `
       }
     }
   }
-`;
+`
 
 interface HardcoverBook {
-  title: string | null;
-  release_year: number | null;
-  image: { url: string | null } | null;
-  contributions: { author: { name: string | null } | null }[];
+  title: string | null
+  release_year: number | null
+  image: { url: string | null } | null
+  contributions: { author: { name: string | null } | null }[]
 }
 
 interface RawResponse {
   data?: {
     me: {
       goals: {
-        progress: number;
-        description: string;
-        goal: number;
+        progress: number
+        description: string
+        goal: number
         user: {
-          user_books: { book: HardcoverBook }[];
+          user_books: { book: HardcoverBook }[]
           reviews: {
-            review_slate: unknown;
-            rating: number | null;
-            book: HardcoverBook;
-          }[];
-        };
-      }[];
-    }[];
-  };
-  errors?: { message: string }[];
+            review_slate: unknown
+            rating: number | null
+            book: HardcoverBook
+          }[]
+        }
+      }[]
+    }[]
+  }
+  errors?: { message: string }[]
 }
 
 export interface BookSummary {
-  title: string;
-  author: string;
-  cover: string | null;
-  year: number | null;
+  title: string
+  author: string
+  cover: string | null
+  year: number | null
 }
 
 export interface ReadingChallenge {
-  description: string;
-  progress: number;
-  goal: number;
+  description: string
+  progress: number
+  goal: number
 }
 
 export interface ReadingStatus {
-  current: BookSummary | null;
-  challenge: ReadingChallenge | null;
-  lastReviewed: (BookSummary & { rating: number | null }) | null;
+  current: BookSummary | null
+  challenge: ReadingChallenge | null
+  lastReviewed: (BookSummary & { rating: number | null }) | null
 }
 
 function toSummary(book: HardcoverBook): BookSummary {
@@ -108,16 +100,16 @@ function toSummary(book: HardcoverBook): BookSummary {
     author: book.contributions[0]?.author?.name ?? 'author unknown',
     cover: book.image?.url ?? null,
     year: book.release_year ?? null,
-  };
+  }
 }
 
-const EMPTY: ReadingStatus = { current: null, challenge: null, lastReviewed: null };
+const EMPTY: ReadingStatus = { current: null, challenge: null, lastReviewed: null }
 
 export async function getReadingStatus(): Promise<ReadingStatus> {
-  const key = import.meta.env.HARDCOVER_API_KEY;
+  const key = import.meta.env.HARDCOVER_API_KEY
   if (!key) {
-    console.warn('[hardcover] HARDCOVER_API_KEY not set — skipping reading status');
-    return EMPTY;
+    console.warn('[hardcover] HARDCOVER_API_KEY not set — skipping reading status')
+    return EMPTY
   }
 
   try {
@@ -125,24 +117,24 @@ export async function getReadingStatus(): Promise<ReadingStatus> {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        authorization: key.startsWith('Bearer ') ? key : `Bearer ${key}`,
+        'authorization': key.startsWith('Bearer ') ? key : `Bearer ${key}`,
       },
       body: JSON.stringify({ query: READING_QUERY }),
-    });
+    })
 
     if (!res.ok) {
-      console.warn(`[hardcover] request failed: ${res.status}`);
-      return EMPTY;
+      console.warn(`[hardcover] request failed: ${res.status}`)
+      return EMPTY
     }
 
-    const json = (await res.json()) as RawResponse;
+    const json = (await res.json()) as RawResponse
     if (json.errors?.length) {
-      console.warn('[hardcover] graphql errors:', json.errors.map((e) => e.message).join('; '));
-      return EMPTY;
+      console.warn('[hardcover] graphql errors:', json.errors.map(e => e.message).join('; '))
+      return EMPTY
     }
 
-    const goal = json.data?.me[0]?.goals[0];
-    const user = goal?.user;
+    const goal = json.data?.me[0]?.goals[0]
+    const user = goal?.user
 
     return {
       current: user?.user_books[0]?.book ? toSummary(user.user_books[0].book) : null,
@@ -152,9 +144,10 @@ export async function getReadingStatus(): Promise<ReadingStatus> {
       lastReviewed: user?.reviews[0]
         ? { ...toSummary(user.reviews[0].book), rating: user.reviews[0].rating }
         : null,
-    };
-  } catch (error) {
-    console.warn('[hardcover] fetch threw:', error);
-    return EMPTY;
+    }
+  }
+  catch (error) {
+    console.warn('[hardcover] fetch threw:', error)
+    return EMPTY
   }
 }

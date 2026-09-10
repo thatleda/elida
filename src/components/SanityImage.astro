@@ -1,0 +1,61 @@
+---
+import type { LinkedImage } from '../lib/sanity'
+import { imageUrl } from '../lib/sanity'
+
+interface Props {
+  image: LinkedImage
+
+  alt?: string
+
+  widths?: number[]
+
+  sizes?: string
+
+  eager?: boolean
+  class?: string
+}
+
+const {
+  image,
+  alt,
+  widths = [480, 768, 1024, 1600],
+  sizes = '(max-width: 48rem) 100vw, 44rem',
+  eager = false,
+  class: className,
+} = Astro.props
+
+const dims = image.dimensions
+const displayWidth = Math.min(dims?.width ?? 1024, widths.at(-1)!)
+const displayHeight = dims ? Math.round(displayWidth / dims.aspectRatio) : undefined
+
+const base = imageUrl(image).auto('format').fit('max')
+const src = base.width(displayWidth).url()
+const srcset = widths
+  .filter(w => !dims || w <= dims.width)
+  .map(w => `${base.width(w).url()} ${w}w`)
+  .join(', ')
+
+const altText = alt ?? image.altText ?? '';
+---
+
+<img
+  src={src}
+  srcset={srcset || undefined}
+  sizes={srcset ? sizes : undefined}
+  width={displayWidth}
+  height={displayHeight}
+  alt={altText}
+  loading={eager ? 'eager' : 'lazy'}
+  decoding={eager ? 'sync' : 'async'}
+  class:list={['sanity-image', className]}
+  style={image.lqip ? `background-image:url(${image.lqip});background-size:cover;` : undefined}
+/>
+
+<style>
+  .sanity-image {
+    display: block;
+    border: var(--border-width) solid var(--border);
+    /* the CRT scanlines read better over a slightly muted image */
+    filter: saturate(0.75) contrast(1.05);
+  }
+</style>

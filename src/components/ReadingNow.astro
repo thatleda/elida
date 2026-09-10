@@ -1,21 +1,24 @@
 ---
-import { getReadingStatus } from '../lib/hardcover';
-import { useTranslations, type Locale } from '../i18n';
+import type { Locale } from '../i18n'
+import { useTranslations } from '../i18n'
+import { getReadingStatus } from '../lib/hardcover'
 
 interface Props {
-  lang: Locale;
+  lang: Locale
 }
 
-const { lang } = Astro.props;
-const t = useTranslations(lang);
-const { current, challenge, lastReviewed } = await getReadingStatus();
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const { current, challenge, lastReviewed } = await getReadingStatus()
 const nf = new Intl.NumberFormat(lang);
 ---
 
 {
-  !current ? (
+  !current
+? (
     <p>{t('reading.none')}</p>
-  ) : (
+  )
+: (
     <div class="book">
       {current.cover && (
         <img
