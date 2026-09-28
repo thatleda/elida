@@ -39,7 +39,7 @@ const nf = new Intl.NumberFormat(lang);
     </div>
   )
 : (
-    <p>{t('reading.none')}</p>
+    <p>{t('reading.none')}.</p>
   )
 }
 
@@ -47,8 +47,8 @@ const nf = new Intl.NumberFormat(lang);
   challenge && (
     <p class="challenge">
       <label>
-        {challenge.description}: {challenge.progress} {t('ramblings.of')}{' '}
-        {challenge.goal}
+        {t('reading.challenge')} {challenge.description}: {challenge.progress}{' '}
+        {t('ramblings.of')} {challenge.goal} {t('reading.books')}.
         <progress max={challenge.goal} value={challenge.progress} />
       </label>
     </p>

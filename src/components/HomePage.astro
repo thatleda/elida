@@ -26,22 +26,29 @@ const [hero, who, adventure, reviews] = await Promise.all([
   getReviews(),
 ])
 
-const title = hero?.title ? `ELIDA — ${hero.title}` : 'ELIDA'
+const title = 'ELIDA'
 const description = hero?.excerpt ?? t('hero.tagline')
 const contactEmail = 'leda@sent.com'
 
-const beats = adventure?.beats?.map(beat => renderBlocks(beat.content, { images: false })) ?? [];
+const beats
+  = adventure?.beats?.map(beat =>
+    renderBlocks(beat.content, { images: false }),
+  ) ?? [];
 ---
 
 <Base lang={lang} title={title} description={description}>
   <section class="hero panel">
     <div class="hero-text">
-      <TypedCommand word="whoami" class="prompt" />
       <h1>{hero?.title ?? 'Leda Wolf'}</h1>
       <p class="tagline">{t('hero.tagline')}</p>
       <p class="pitch" set:html={t('hero.pitch')} />
       {hero?.content && <Prose blocks={hero.content} />}
-      <EliQuery client:idle lang={lang} prompt={t('eli.prompt')} placeholder={t('eli.placeholder')} />
+      <EliQuery
+        client:idle
+        lang={lang}
+        prompt={t('eli.prompt')}
+        placeholder={t('eli.placeholder')}
+      />
     </div>
     {
       hero?.banner && (
@@ -76,19 +83,22 @@ const beats = adventure?.beats?.map(beat => renderBlocks(beat.content, { images:
 
   {
     adventure && (
-      <Section id="previously" heading={adventure.title || t('section.previously')}>
+      <Section
+        id="previously"
+        heading={adventure.title || t('section.previously')}
+      >
         {beats.length > 0
-          ? (
-              <StoryBeats
-                client:visible
-                beats={beats}
-                nextLabel={t('previously.next')}
-                fullLabel={t('previously.full')}
-              />
-            )
-          : (
-              <Prose blocks={adventure.content} />
-            )}
+? (
+          <StoryBeats
+            client:visible
+            beats={beats}
+            nextLabel={t('previously.next')}
+            fullLabel={t('previously.full')}
+          />
+        )
+: (
+          <Prose blocks={adventure.content} />
+        )}
       </Section>
     )
   }
@@ -119,17 +129,56 @@ const beats = adventure?.beats?.map(beat => renderBlocks(beat.content, { images:
     )
   }
 
-  <Section id="contact" heading={t('section.contact')}>
+  <Section id="status">
+    <TypedCommand word="status" class="prompt" />
     <ReadingNow lang={lang} />
-    <hr />
+  </Section>
+
+  <Section id="contact">
+    <TypedCommand word="link" class="prompt" />
     <p>{t('contact.leda')}</p>
-    <p><a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
-    <ul class="contact-links">
-      <li><a href="https://calendly.com/ledawolf/meeting" target="_blank" rel="noopener noreferrer">{t('contact.calendly')}</a></li>
-      <li><a href="https://github.com/thatleda" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/thatleda/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a href="https://discord.com/users/732667625255075951" target="_blank" rel="noopener noreferrer">Discord</a></li>
-    </ul>
+    <p class="contact-email">
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+    </p>
+    <p>{t('contact.links')}:</p>
+    <p>
+      <div class="contact-links-wrapper">
+        <ul class="contact-links">
+          <li>
+            <a
+              href="https://calendly.com/ledawolf/meeting"
+              target="_blank"
+              rel="noopener noreferrer"
+            >{t('contact.calendly')}</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/thatleda"
+              target="_blank"
+              rel="noopener noreferrer"
+            >GitHub</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/thatleda/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >LinkedIn</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://discord.com/users/732667625255075951"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Discord</a
+            >
+          </li>
+        </ul>
+      </div>
+    </p>
   </Section>
 </Base>
 
@@ -208,8 +257,18 @@ const beats = adventure?.beats?.map(beat => renderBlocks(beat.content, { images:
     margin: 0.4rem 0 0;
   }
 
+  .contact-email {
+    text-align: center;
+  }
+
+  .contact-links-wrapper {
+    display: flex;
+    justify-content: end;
+  }
+
   .contact-links {
     display: flex;
+    flex-direction: space-between;
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
     list-style: none;

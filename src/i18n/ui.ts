@@ -18,8 +18,10 @@ export const ui = {
     'section.who': 'Who?',
     'section.previously': 'Previously, on Leda’s adventures',
     'section.reviews': 'Working with Leda',
-    'section.contact': 'What is she up to?',
+    'section.contact': 'Reach out',
 
+    'reading.challenge': 'Reading challenge',
+    'reading.books': 'books read',
     'reading.title': 'Currently reading',
     'reading.finished': 'Just finished reading',
     'reading.by': 'by',
@@ -27,6 +29,7 @@ export const ui = {
     'reading.stars': 'stars',
     'reading.none': 'Not reading anything at the moment',
 
+    'contact.links': 'Other ways to reach me',
     'contact.leda':
       'If you have developed a strong desire to communicate or collaborate, please don\'t hesitate and write to:',
     'contact.calendly': 'Book a meeting',
@@ -90,8 +93,10 @@ export const ui = {
     'section.who': 'Wer?',
     'section.previously': 'Bisher, in Ledas Abenteuern',
     'section.reviews': 'Mit Leda arbeiten',
-    'section.contact': 'Was macht sie gerade?',
+    'section.contact': 'Anfragen',
 
+    'reading.challenge': 'Lese-Challenge',
+    'reading.books': 'Bücher gelesen',
     'reading.title': 'Aktuell lese ich',
     'reading.finished': 'Gerade gelesen',
     'reading.by': 'von',
@@ -99,6 +104,7 @@ export const ui = {
     'reading.stars': 'Sterne',
     'reading.none': 'Momentan lese ich nichts',
 
+    'contact.links': 'Weitere Optionen',
     'contact.leda':
       'Wenn du das starke Bedürfnis verspürst, mit mir zu kommunizieren oder gar zusammenzuarbeiten, zögere bitte nicht und schreibe an:',
     'contact.calendly': 'Meeting buchen',
