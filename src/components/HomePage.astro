@@ -2,11 +2,14 @@
 import type { Locale } from '../i18n'
 import { useTranslations } from '../i18n'
 import Base from '../layouts/Base.astro'
+import { renderBlocks } from '../lib/portableText'
 import { getPage, getReviews } from '../lib/sanity'
+import EliQuery from './EliQuery.vue'
 import Prose from './Prose.astro'
 import ReadingNow from './ReadingNow.astro'
 import SanityImage from './SanityImage.astro'
 import Section from './Section.astro'
+import StoryBeats from './StoryBeats.vue'
 import TypedCommand from './TypedCommand.astro'
 
 interface Props {
@@ -16,16 +19,18 @@ interface Props {
 const { lang } = Astro.props
 const t = useTranslations(lang)
 
-const [hero, who, previously, reviews] = await Promise.all([
+const [hero, who, adventure, reviews] = await Promise.all([
   getPage('hero', lang),
   getPage('who', lang),
-  getPage('previously', lang),
+  getPage('adventure', lang),
   getReviews(),
 ])
 
 const title = hero?.title ? `ELIDA — ${hero.title}` : 'ELIDA'
 const description = hero?.excerpt ?? t('hero.tagline')
-const contactEmail = 'leda@sent.com';
+const contactEmail = 'leda@sent.com'
+
+const beats = adventure?.beats?.map(beat => renderBlocks(beat.content, { images: false })) ?? [];
 ---
 
 <Base lang={lang} title={title} description={description}>
@@ -36,6 +41,7 @@ const contactEmail = 'leda@sent.com';
       <p class="tagline">{t('hero.tagline')}</p>
       <p class="pitch" set:html={t('hero.pitch')} />
       {hero?.content && <Prose blocks={hero.content} />}
+      <EliQuery client:idle lang={lang} prompt={t('eli.prompt')} placeholder={t('eli.placeholder')} />
     </div>
     {
       hero?.banner && (
@@ -69,9 +75,20 @@ const contactEmail = 'leda@sent.com';
   }
 
   {
-    previously && (
-      <Section id="previously" heading={previously.title || t('section.previously')}>
-        <Prose blocks={previously.content} />
+    adventure && (
+      <Section id="previously" heading={adventure.title || t('section.previously')}>
+        {beats.length > 0
+          ? (
+              <StoryBeats
+                client:visible
+                beats={beats}
+                nextLabel={t('previously.next')}
+                fullLabel={t('previously.full')}
+              />
+            )
+          : (
+              <Prose blocks={adventure.content} />
+            )}
       </Section>
     )
   }
@@ -107,6 +124,12 @@ const contactEmail = 'leda@sent.com';
     <hr />
     <p>{t('contact.leda')}</p>
     <p><a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
+    <ul class="contact-links">
+      <li><a href="https://calendly.com/ledawolf/meeting" target="_blank" rel="noopener noreferrer">{t('contact.calendly')}</a></li>
+      <li><a href="https://github.com/thatleda" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thatleda/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="https://discord.com/users/732667625255075951" target="_blank" rel="noopener noreferrer">Discord</a></li>
+    </ul>
   </Section>
 </Base>
 
@@ -183,5 +206,14 @@ const contactEmail = 'leda@sent.com';
   .reviewer {
     color: var(--fg-dim);
     margin: 0.4rem 0 0;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
   }
 </style>

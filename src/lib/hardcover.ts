@@ -1,3 +1,5 @@
+import { renderSlateReview } from './slate'
+
 const ENDPOINT = 'https://api.hardcover.app/v1/graphql'
 
 const READING_QUERY = `
@@ -91,7 +93,7 @@ export interface ReadingChallenge {
 export interface ReadingStatus {
   current: BookSummary | null
   challenge: ReadingChallenge | null
-  lastReviewed: (BookSummary & { rating: number | null }) | null
+  lastReviewed: (BookSummary & { rating: number | null, reviewHtml: string }) | null
 }
 
 function toSummary(book: HardcoverBook): BookSummary {
@@ -142,7 +144,11 @@ export async function getReadingStatus(): Promise<ReadingStatus> {
         ? { description: goal.description, progress: goal.progress, goal: goal.goal }
         : null,
       lastReviewed: user?.reviews[0]
-        ? { ...toSummary(user.reviews[0].book), rating: user.reviews[0].rating }
+        ? {
+            ...toSummary(user.reviews[0].book),
+            rating: user.reviews[0].rating,
+            reviewHtml: renderSlateReview(user.reviews[0].review_slate),
+          }
         : null,
     }
   }

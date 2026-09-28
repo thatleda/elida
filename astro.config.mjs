@@ -1,4 +1,4 @@
-import react from '@astrojs/react'
+import vue from '@astrojs/vue'
 // @ts-check
 import { defineConfig } from 'astro/config'
 
@@ -8,7 +8,7 @@ export default defineConfig({
   site,
 
   output: 'static',
-  integrations: [react()],
+  integrations: [vue()],
   i18n: {
     locales: ['en', 'de'],
     defaultLocale: 'en',

@@ -3,8 +3,7 @@ import type { Locale } from './config'
 export const ui = {
   en: {
     'hero.tagline': 'I\'m a software engineer',
-    'hero.pitch': 'Let\'s see if I\'m a <u>good fit</u> for your company.',
-
+    'hero.pitch': 'This is ELIDA, my digital assistant.',
     'nav.menu': 'Main navigation',
     'nav.language': 'Language',
     'nav.toggle.color-mode': 'Toggle color mode',
@@ -30,6 +29,7 @@ export const ui = {
 
     'contact.leda':
       'If you have developed a strong desire to communicate or collaborate, please don\'t hesitate and write to:',
+    'contact.calendly': 'Book a meeting',
 
     'ramblings.title': 'Unhinged ramblings',
     'ramblings.description':
@@ -48,10 +48,33 @@ export const ui = {
 
     'terminal.prompt': 'Type a command, or press ? for help',
     'skip.content': 'Skip to content',
+
+    'eli.prompt': 'Ask ELIDA something',
+    'eli.placeholder': 'ask ELIDA',
+
+    'previously.next': 'What happened next?',
+    'previously.full': 'Full story here',
+
+    'resume.title': 'Leda Wolf\'s CV',
+    'resume.description': 'Resume of Leda Wolf, senior fullstack software engineer',
+    'resume.career': 'Senior Fullstack Software Engineer',
+    'resume.print': 'Print / Save as PDF',
+    'resume.profile': 'Profile',
+    'resume.skills': 'Skills',
+    'resume.experience': 'Experience',
+    'resume.education': 'Education',
+    'resume.languages': 'Languages',
+    'resume.fluent': 'Fluent',
+    'resume.conversational': 'Conversational',
+    'resume.basic': 'Basic',
+    'resume.languages.fluent': 'German, English, Russian',
+    'resume.languages.conversational': 'Spanish, French',
+    'resume.languages.basic': 'Ukrainian, Portuguese, Mandarin, Japanese',
+    'resume.additional': 'Additional',
   },
   de: {
     'hero.tagline': 'Ich bin eine Software-Entwicklerin',
-    'hero.pitch': 'Finden wir heraus, ob ich <u>gut zu Euch passe</u>.',
+    'hero.pitch': 'Das ist ELIDA, meine digitale Assistentin.',
 
     'nav.menu': 'Hauptmenü',
     'nav.language': 'Sprache',
@@ -78,6 +101,7 @@ export const ui = {
 
     'contact.leda':
       'Wenn du das starke Bedürfnis verspürst, mit mir zu kommunizieren oder gar zusammenzuarbeiten, zögere bitte nicht und schreibe an:',
+    'contact.calendly': 'Meeting buchen',
 
     'ramblings.title': 'Gedankenwirrwarr auf Englisch',
     'ramblings.description':
@@ -96,6 +120,29 @@ export const ui = {
 
     'terminal.prompt': 'Gib einen Befehl ein, oder drücke ? für Hilfe',
     'skip.content': 'Zum Inhalt springen',
+
+    'eli.prompt': 'Frag ELIDA etwas',
+    'eli.placeholder': 'frag ELIDA',
+
+    'previously.next': 'Und dann?',
+    'previously.full': 'Ganze Geschichte hier',
+
+    'resume.title': 'Leda Wolf - Lebenslauf',
+    'resume.description': 'Lebenslauf von Leda Wolf, Senior Fullstack Softwareentwicklerin',
+    'resume.career': 'Senior Fullstack Softwareentwicklerin',
+    'resume.print': 'Drucken / Als PDF speichern',
+    'resume.profile': 'Profil',
+    'resume.skills': 'Kenntnisse',
+    'resume.experience': 'Berufserfahrung',
+    'resume.education': 'Ausbildung',
+    'resume.languages': 'Sprachen',
+    'resume.fluent': 'Fließend',
+    'resume.conversational': 'Konversationssicher',
+    'resume.basic': 'Grundkenntnisse',
+    'resume.languages.fluent': 'Deutsch, Englisch, Russisch',
+    'resume.languages.conversational': 'Spanisch, Französisch',
+    'resume.languages.basic': 'Ukrainisch, Portugiesisch, Mandarin, Japanisch',
+    'resume.additional': 'Weiteres',
   },
 } as const satisfies Record<Locale, Record<string, string>>
 

@@ -1,0 +1,343 @@
+---
+import type { Locale } from '../i18n'
+import { useTranslations } from '../i18n'
+import Base from '../layouts/Base.astro'
+import { getResume } from '../lib/sanity'
+
+interface Props {
+  lang: Locale
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const resume = await getResume(lang)
+---
+
+<Base lang={lang} title={t('resume.title')} description={t('resume.description')}>
+  <div class="actions no-print">
+    <button type="button" onclick="window.print()">{t('resume.print')}</button>
+  </div>
+
+  <article class="panel resume">
+    <header class="resume-header">
+      <h1>Leda Wolf</h1>
+      <p class="career">{t('resume.career')}</p>
+      <p class="contact">
+        <span>Schwerin, Germany</span>
+        <span aria-hidden="true">·</span>
+        <a href="mailto:leda@sent.com">leda@sent.com</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://ledawolf.info">ledawolf.info</a>
+      </p>
+    </header>
+
+    {
+      resume?.profile && (
+        <section class="section">
+          <h2>{t('resume.profile')}</h2>
+          <p>{resume.profile}</p>
+        </section>
+      )
+    }
+
+    {
+      resume?.skills && resume.skills.length > 0 && (
+        <section class="section">
+          <h2>{t('resume.skills')}</h2>
+          <dl class="skill-list">
+            {resume.skills.map(group => (
+              <div class="skill-group">
+                <dt>{group.category}</dt>
+                <dd>{group.items.join(', ')}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )
+    }
+
+    {
+      resume?.experience && resume.experience.length > 0 && (
+        <section class="section">
+          <h2>{t('resume.experience')}</h2>
+          {resume.experience.map(entry => (
+            <div class="entry">
+              <div class="entry-title">
+                <strong>{entry.company}</strong>
+                {entry.title && <span> — {entry.title}</span>}
+              </div>
+              <div class="entry-meta">
+                {entry.startDate && (
+                  <span>
+                    {entry.startDate}
+                    {entry.endDate ? ` – ${entry.endDate}` : ''}
+                  </span>
+                )}
+                {entry.location && <span> · {entry.location}</span>}
+                {entry.note && <span class="note"> · {entry.note}</span>}
+              </div>
+              {entry.bullets && entry.bullets.length > 0 && (
+                <ul>
+                  {entry.bullets.map(bullet => <li>{bullet}</li>)}
+                </ul>
+              )}
+            </div>
+          ))}
+        </section>
+      )
+    }
+
+    {
+      resume?.education && resume.education.length > 0 && (
+        <section class="section">
+          <h2>{t('resume.education')}</h2>
+          {resume.education.map(entry => (
+            <div class="entry">
+              <div class="entry-title">
+                <strong>{entry.institution}</strong>
+                {entry.degree && <span> — {entry.degree}</span>}
+                {entry.year && <span> ({entry.year})</span>}
+              </div>
+              {entry.note && <p class="note">{entry.note}</p>}
+            </div>
+          ))}
+        </section>
+      )
+    }
+
+    <section class="section">
+      <h2>{t('resume.languages')}</h2>
+      <dl class="skill-list">
+        <div class="skill-group">
+          <dt>{t('resume.fluent')}</dt>
+          <dd>{t('resume.languages.fluent')}</dd>
+        </div>
+        <div class="skill-group">
+          <dt>{t('resume.conversational')}</dt>
+          <dd>{t('resume.languages.conversational')}</dd>
+        </div>
+        <div class="skill-group">
+          <dt>{t('resume.basic')}</dt>
+          <dd>{t('resume.languages.basic')}</dd>
+        </div>
+      </dl>
+    </section>
+
+    {
+      resume?.additionalSkills && resume.additionalSkills.length > 0 && (
+        <section class="section">
+          <h2>{t('resume.additional')}</h2>
+          <ul>
+            {resume.additionalSkills.map(item => <li>{item}</li>)}
+          </ul>
+        </section>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .actions {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 2.5rem);
+  }
+
+  .actions button {
+    font: inherit;
+    background: var(--bg-raised);
+    color: var(--fg);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.4em 0.8em;
+    cursor: pointer;
+  }
+
+  .actions button:hover,
+  .actions button:focus-visible {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .resume-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: var(--border-width) solid var(--border);
+  }
+
+  .resume-header h1 {
+    margin: 0 0 0.2rem;
+  }
+
+  .career {
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.75rem;
+  }
+
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    color: var(--fg-dim);
+    margin: 0;
+  }
+
+  .section {
+    margin-bottom: 1.75rem;
+  }
+
+  .section:last-child {
+    margin-bottom: 0;
+  }
+
+  .resume h2 {
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+  }
+
+  .skill-list {
+    margin: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .skill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-group dt {
+    font-weight: 700;
+    color: var(--fg-bright);
+    min-width: 12rem;
+    flex-shrink: 0;
+  }
+
+  .skill-group dt::after {
+    content: ':';
+  }
+
+  .skill-group dd {
+    margin: 0;
+    color: var(--fg-dim);
+    flex: 1;
+  }
+
+  .entry {
+    margin-bottom: 1rem;
+    break-inside: avoid;
+  }
+
+  .entry:last-child {
+    margin-bottom: 0;
+  }
+
+  .entry-title {
+    font-size: 1.05rem;
+  }
+
+  .entry-meta {
+    font-size: 0.85rem;
+    color: var(--fg-dim);
+    margin-top: 0.1rem;
+  }
+
+  .note {
+    font-style: italic;
+  }
+
+  .resume ul {
+    margin: 0.4rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--fg-dim);
+  }
+
+  .resume li {
+    margin-bottom: 0.25rem;
+  }
+
+  @media print {
+    :global(header.site-header),
+    :global(footer),
+    :global(.crt-overlay),
+    .no-print {
+      display: none !important;
+    }
+
+    @page {
+      background: #fff;
+      margin: 0.35in 0.5in;
+    }
+
+    :global(html) {
+      font-size: 9pt;
+      background: #fff !important;
+    }
+
+    :global(body) {
+      background: #fff !important;
+      color: #000;
+      line-height: 1.15;
+    }
+
+    :global(.shell) {
+      max-width: none;
+      padding: 0 !important;
+    }
+
+    .resume {
+      border: 0;
+      background: none;
+      box-shadow: none;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .resume-header {
+      margin-bottom: 0.45rem;
+      padding-bottom: 0.3rem;
+    }
+
+    .resume-header h1 {
+      font-size: 1.4rem;
+    }
+
+    .resume h2 {
+      font-size: 1.15rem;
+      margin: 0 0 0.35rem;
+      break-after: avoid;
+    }
+
+    .section {
+      margin-bottom: 0.35rem;
+    }
+
+    .entry {
+      margin-bottom: 0.15rem;
+    }
+
+    .entry-title {
+      font-size: 1rem;
+      break-after: avoid;
+    }
+
+    .entry-meta {
+      break-after: avoid;
+    }
+
+    .resume ul {
+      margin-top: 0.2rem;
+    }
+
+    .resume li {
+      margin-bottom: 0.05rem;
+    }
+
+    .skill-group {
+      break-inside: avoid;
+    }
+  }
+</style>

@@ -77,6 +77,7 @@ const nf = new Intl.NumberFormat(lang);
             {t('reading.rating')}: {nf.format(lastReviewed.rating)} / 5 {t('reading.stars')}
           </p>
         )}
+        {lastReviewed.reviewHtml && <div class="prose review" set:html={lastReviewed.reviewHtml} />}
       </div>
     </div>
   )
@@ -135,4 +136,41 @@ const nf = new Intl.NumberFormat(lang);
       flex-direction: column;
     }
   }
+
+  .review {
+    margin-top: 0.6rem;
+  }
+
+  .review :global(.spoiler-toggle) {
+    font: inherit;
+    background: transparent;
+    color: var(--fg-dim);
+    border: var(--border-width) dashed var(--border);
+    border-radius: var(--radius);
+    padding: 0 0.4em;
+    cursor: pointer;
+  }
+
+  .review :global(.spoiler-toggle:hover),
+  .review :global(.spoiler-toggle:focus-visible) {
+    background: var(--fg);
+    color: var(--bg);
+  }
 </style>
+
+<script is:inline>
+(() => {
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('.spoiler-toggle')
+    if (!button)
+      return
+    const content = document.getElementById(button.getAttribute('aria-controls'))
+    if (!content)
+      return
+    const revealed = button.getAttribute('aria-expanded') === 'true'
+    button.setAttribute('aria-expanded', String(!revealed))
+    content.hidden = revealed
+    button.hidden = !revealed
+  })
+})()
+</script>

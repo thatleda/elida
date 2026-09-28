@@ -1,95 +1,104 @@
 # ELIDA
 
-Leda Wolf's website, rebuilt. A fast, static, mostly-JS-free site wearing an
-80s terminal skin — the successor to [`vuelfden`](../vuelfden), which it treats
-as rough inspiration rather than a spec.
+Leda Wolf's website. A fast, static, mostly-JS-free site wearing an 80s
+terminal skin.
 
-The name is [ELIZA](https://en.wikipedia.org/wiki/ELIZA) with one letter's worth
-of static, and it's `LEDA` rearranged.
+## ELIZA, 1966
+
+In 1966, Joseph Weizenbaum built a chatbot at MIT that did nothing but
+reflect a person's own words back as questions. It didn't understand
+anything — it pattern-matched keywords and rephrased them, Rogerian-therapist
+style. People confided in it anyway. Weizenbaum was disturbed enough by that
+to spend the rest of his career warning people not to mistake the
+performance of understanding for the real thing.
+
+ELIDA is ELIZA with one letter's worth of static, and it's also `LEDA`
+rearranged. Both readings are intentional. This site wears the costume of
+the most famous con in computing history, on purpose, at a moment when the
+question ELIZA first raised — can something that reflects you back convince
+you it understands? — has never been more alive. The "Ask ELIDA" terminal on
+the homepage is a real, working ELIZA clone: keyword matching, no
+comprehension, and a default response that's the original Rogerian
+deflection, near enough verbatim ("Why do you want to know that?"). Unlike
+1966, the visitor is in on it — that's the point. Leda spends her career
+doing the work ELIZA only pretended to: translating a complex system into
+something a room with no engineering background can trust, mentoring people
+into the field, building accessibility in from the start instead of bolting
+it on after. Naming a portfolio after the machine that faked all of that,
+and then being completely transparent about the fake, is the joke and the
+thesis at the same time.
 
 ## Stack
 
-| Concern      | Choice                                                       |
-| ------------ | ----------------------------------------------------------- |
-| Framework    | [Astro](https://astro.build) — static output, zero JS by default |
-| Interactivity| React islands (`@astrojs/react`) — none built yet           |
-| Content      | Sanity (`page`, `article`, `review`, `resume`), document-level i18n |
-| Reading list | Hardcover GraphQL, fetched at build time                    |
-| i18n         | Astro i18n routing — `en` at `/`, `de` at `/de/`; UI strings in `src/i18n/ui.ts` |
-| Hosting      | Netlify (static publish of `dist/`)                         |
+**Astro — static output, zero JS by default.** Most of this site is words: a
+bio, some articles, a resume. Astro ships no JavaScript for any of that. The
+two genuinely interactive pieces are isolated, hydrated islands rather than
+an excuse to ship a full SPA runtime to read a paragraph.
 
-## Develop
+**Vue — two islands, and a deliberate signal.** `EliQuery.vue` runs the
+ELIZA matcher client-side; `StoryBeats.vue` runs the choose-your-own-adventure
+reveal on the bio page. Vue over React here isn't a default, it's a choice —
+Leda's recent professional work is React-heavy, and this site exists partly
+to show range.
 
-```sh
-pnpm install
-cp .env.example .env   # fill in HARDCOVER_API_KEY
-pnpm dev
-```
+**Sanity — headless CMS.** Content (bio, articles, testimonials, resume) is
+authored and edited without a deploy, keyed per-locale. The schema itself
+isn't part of this document — it's an editing surface, not a public API.
 
-| Script               | Does                                                     |
-| -------------------- | ------------------------------------------------------- |
-| `pnpm dev`           | dev server                                              |
-| `pnpm build`         | pulls Sanity + Hardcover, prerenders every route        |
-| `pnpm check`         | `astro check` — types (pinned to TypeScript 5.x; the 7.x native compiler doesn't expose the API the checker needs) |
-| `pnpm lint` / `:fix` | antfu flat config + `matt/no-comments` (comments are a lint error, same as `vuelfden`) |
-| `pnpm test`          | vitest unit tests (`src/**/*.test.ts`, happy-dom)       |
-| `pnpm test:e2e`      | Playwright — builds, serves `preview`, runs `e2e/`      |
+**Hardcover — a live reading widget.** Calls the Hardcover GraphQL API at
+build time. Reviews come back as Slate.js rich text and are rendered through
+a small hand-rolled renderer (bold, italic, blockquotes, lists, a
+click-to-reveal spoiler tag) rather than pulling in a heavy rich-text
+dependency for five node types.
 
-### pnpm trust policy
+**The terminal skin.** Green phosphor on true black, a self-typing `whoami`
+prompt, CRT scanlines that respect `prefers-reduced-motion`. Every color is
+a CSS custom property, so the entire palette is a one-line swap.
 
-The hardened pnpm on this machine writes `trustPolicy: no-downgrade` into
-`pnpm-workspace.yaml` and rejects lockfile entries whose latest published
-version lost provenance evidence. `chokidar@4.0.3` and `semver@6.3.1` (pulled
-transitively by `@astrojs/check` and the eslint toolchain) trip it — both are
-ubiquitous and actively maintained, no known incident, so they're listed under
-`trustPolicyExclude`. Revisit if either package publishes a provenance-signed
-release.
+**i18n.** Astro's own i18n routing — English at `/`, German at `/de/` — with
+real `hreflang` and canonical tags, not a client-side language toggle, so
+the German content is actually indexable.
 
-## Layout
+**Print.** The resume renders from the same content as the on-screen page,
+but the print stylesheet is its own design pass: real `@page` margins
+(padding on the page wrapper only applies once across the whole document,
+not once per physical page), explicit background overrides (the root
+element paints the canvas independently of where the content itself ends),
+and heading/entry-level break rules tuned against the actual paginated
+output rather than guessed at from the screen view.
+
+## Structure
 
 ```
 src/
-  i18n/            locale config, UI string dictionary, path helpers
-  lib/             sanity.ts (client + typed queries), hardcover.ts
-  layouts/Base.astro   html shell, <head>, skip link, CRT overlay
-  components/
-    SiteHeader / SiteFooter
-    Section / Prose / ReadingNow / SanityImage        building blocks
-    TypedCommand / Loader                             terminal motion pieces
-    HomePage / RamblingsIndex / ArticlePage / ContentPage   page bodies
-  pages/           thin route files; de/ mirrors the tree for German
-  styles/terminal.css   the phosphor theme (all colour is a custom property)
-e2e/               Playwright specs (run against a real preview build)
+  components/    Astro components, plus two Vue islands (EliQuery, StoryBeats)
+  i18n/          locale config, UI string dictionary, path helpers
+  layouts/       Base.astro — html shell, CRT overlay, skip link
+  lib/           Sanity client, Hardcover client, the ELIZA matcher,
+                 Slate + Portable Text renderers
+  pages/         thin route files; de/ mirrors the tree for German
+  styles/        the phosphor theme
 ```
 
-Unit tests sit next to their subject (`src/i18n/index.test.ts`,
-`src/lib/hardcover.test.ts` — the latter mocks the GraphQL endpoint with MSW).
+## Security
 
-## Content notes
+- No secrets live in the repo. The Sanity project ID and dataset are public
+  by design — they're read-only, CDN-cached queries. The Hardcover API key
+  is a real bearer token and exists only in the deploy environment.
+- CMS-authored content is rendered through explicit component allowlists
+  (Portable Text, Slate), not raw HTML injection — there's no path from
+  "someone edits a review in Hardcover" to arbitrary script execution on
+  this site.
+- Every external link (Calendly, GitHub, LinkedIn, Discord) carries
+  `rel="noopener noreferrer"`.
+- Dependencies are pinned to exact versions through a pnpm catalog, checked
+  against a supply-chain trust policy that flags dependency updates with
+  irregular publishing provenance before they land.
 
-- `article` docs have `language: null` — the ramblings are **English only** by
-  design. Both `/ramblings` and `/de/ramblings` render the same English posts.
-- `page` docs (`hero`, `who`, `previously`, `privacy`, `imprint`) exist per
-  locale, keyed by `slug.current` + `language`.
+## Deployment
 
-## Roadmap
-
-- [x] Images — hero + `who` portraits, article banners, reviewer avatars,
-      book covers. `SanityImage.astro` builds srcset from the CDN and carries
-      LQIP + real dimensions. Ramblings index stays text-only on purpose.
-- [ ] **"Previously" in second person** — content edit in Sanity, not code.
-- [ ] Pick + self-host a display font with full Latin Extended-A (umlauts, ß).
-      Current stack rides system monospace fonts.
-- [ ] `/resume` page (there's a `resume` singleton in Sanity).
-- [ ] Duotone / dither treatment on images for the CRT look (optional flourish).
-- [ ] Ramblings index: the faux-terminal with key-map navigation
-      (`j`/`k`/`enter`/`/`) as a React island over real `<a>` links.
-- [ ] A real command prompt on the home page (`ls`, `cd`, `lang de`, `theme`).
-- [x] `Loader` component — the underscore cursor walks E→L→I and parks on the
-      I, so it reads `EL_DA`. Not wired anywhere yet; for the terminal island
-      or a first-visit boot splash.
-- [ ] Pagination for ramblings once the list gets long.
-- [ ] OG images.
-- [ ] Decide on `@astrojs/react` — kept for the islands above; until one ships
-      it emits one unused ~190KB chunk into `dist/_astro/` that no page links.
-- [ ] Set the real domain in `astro.config.mjs` / `SITE_URL`.
+Netlify, connected directly to the GitHub repository. Pushes to `main`
+trigger a build in Netlify's own environment — never from a local machine.
+Environment variables (the Hardcover key, the canonical site URL) are set in
+Netlify's dashboard, not committed. Build: `pnpm build`, Node 22, publishing
+`dist/`.
