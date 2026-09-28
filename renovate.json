@@ -1,0 +1,71 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "timezone": "Europe/Berlin",
+  "schedule": [
+    "before 6am every weekday"
+  ],
+  "assignees": [
+    "thatleda"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "rangeStrategy": "pin",
+  "vulnerabilityAlerts": {
+    "enabled": false
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on monday"
+    ]
+  },
+  "packageRules": [
+    {
+      "groupName": "astro",
+      "matchPackageNames": [
+        "astro",
+        "@astrojs/vue",
+        "@astrojs/check"
+      ]
+    },
+    {
+      "groupName": "playwright",
+      "matchPackageNames": [
+        "playwright",
+        "@playwright/test"
+      ]
+    },
+    {
+      "groupName": "lint",
+      "matchPackageNames": [
+        "@antfu/eslint-config",
+        "eslint",
+        "eslint-plugin-astro",
+        "eslint-plugin-playwright",
+        "eslint-plugin-testing-library"
+      ]
+    },
+    {
+      "groupName": "testing",
+      "matchPackageNames": [
+        "@testing-library/dom",
+        "@testing-library/jest-dom",
+        "@testing-library/user-event",
+        "happy-dom",
+        "vitest",
+        "@vitest/coverage-v8",
+        "msw"
+      ]
+    },
+    {
+      "matchPackageNames": [
+        "typescript"
+      ],
+      "enabled": false
+    }
+  ]
+}

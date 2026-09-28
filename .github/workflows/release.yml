@@ -1,0 +1,85 @@
+name: Release CI
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    name: Build, Deploy & Audit
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://ledawolf.info
+    env:
+      PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
+      PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
+      HARDCOVER_API_KEY: ${{ secrets.HARDCOVER_API_KEY }}
+      NETLIFY_URL: https://ledawolf.info
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.1.0
+        with:
+          cache: true
+          cache_dependency_path: pnpm-lock.yaml
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run linter & tests in parallel
+        run: |
+          pnpm run lint:ci &
+          LINT_PID=$!
+          pnpm run test &
+          TEST_PID=$!
+          wait $LINT_PID
+          wait $TEST_PID
+      - name: Build production bundle
+        run: pnpm run build
+      - name: Deploy to production
+        run: pnpm run deploy --prod --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_TOKEN }} --message "${{ github.event.head_commit.message }}"
+      - run: echo "Deployed to production at ${{ env.NETLIFY_URL }}" >> $GITHUB_STEP_SUMMARY
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium --with-deps
+      - name: Run E2E tests
+        run: pnpm run test:e2e
+      - name: Run Lighthouse audits
+        run: pnpm run lighthouse
+      - name: Prepare reports for GitHub Pages
+        if: always()
+        run: |
+          mkdir -p _site
+          cp -r playwright-report _site/playwright 2>/dev/null || true
+          cp lighthouse-index.html _site/index.html
+          cp lighthouse-*.html lighthouse-*.json _site/ 2>/dev/null || true
+      - name: Upload reports to GitHub Pages
+        if: always()
+        uses: actions/upload-pages-artifact@v5
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: actions/deploy-pages@v5
+        id: deployment
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Display reports summary
+        if: always()
+        run: |
+          echo "### Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[View Lighthouse Reports](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "[View Playwright Reports](${{ steps.deployment.outputs.page_url }}playwright)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat lighthouse-summary.md >> $GITHUB_STEP_SUMMARY

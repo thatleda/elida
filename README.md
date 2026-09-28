@@ -69,7 +69,7 @@ output rather than guessed at from the screen view.
 
 ## Structure
 
-```
+```text
 src/
   components/    Astro components, plus two Vue islands (EliQuery, StoryBeats)
   i18n/          locale config, UI string dictionary, path helpers

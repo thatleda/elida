@@ -6,6 +6,8 @@ trustPolicyExclude:
   - chokidar@4.0.3
   - semver@6.3.1
   - why-is-node-running@3.2.2
+  - '@netlify/serverless-functions-api@2.23.0'
+  - '@netlify/serverless-functions-api@2.18.0'
 
 packages:
   - .
@@ -30,7 +32,9 @@ catalog:
   eslint-plugin-testing-library: 7.16.2
   groq: 6.16.0
   happy-dom: 20.14.5
+  lighthouse: 13.5.0
   msw: 2.15.0
+  netlify-cli: 27.10.1
   playwright: 1.63.0
   typescript: 5.9.3
   vitest: 5.0.2
@@ -39,4 +43,13 @@ catalog:
 allowBuilds:
   esbuild: true
   msw: true
+  netlify-cli: true
   sharp: true
+  unix-dgram: true
+
+minimumReleaseAgeExclude:
+  - '@netlify/build@37.3.1'
+  - '@netlify/edge-bundler@16.1.1'
+  - '@netlify/functions-utils@7.1.13'
+  - '@netlify/zip-it-and-ship-it@16.2.1'
+  - netlify-cli@27.10.1

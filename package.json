@@ -12,11 +12,14 @@
     "astro": "astro",
     "check": "astro check",
     "lint": "eslint .",
+    "lint:ci": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "deploy": "netlify deploy",
+    "lighthouse": "node --experimental-strip-types scripts/lighthouse-audit.ts"
   },
   "dependencies": {
     "@astrojs/vue": "catalog:",
@@ -41,7 +44,9 @@
     "eslint-plugin-playwright": "catalog:",
     "eslint-plugin-testing-library": "catalog:",
     "happy-dom": "catalog:",
+    "lighthouse": "catalog:",
     "msw": "catalog:",
+    "netlify-cli": "catalog:",
     "playwright": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

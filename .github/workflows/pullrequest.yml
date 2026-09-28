@@ -1,0 +1,134 @@
+name: Pull Request CI
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  pages: write
+  id-token: write
+
+jobs:
+  preview:
+    name: Build, Deploy & Audit
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+      url: https://pr-${{ github.event.pull_request.number }}--vuelfden.netlify.app
+    env:
+      PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
+      PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
+      HARDCOVER_API_KEY: ${{ secrets.HARDCOVER_API_KEY }}
+      NETLIFY_URL: https://pr-${{ github.event.pull_request.number }}--vuelfden.netlify.app
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: pnpm/action-setup@v6.1.0
+        with:
+          cache: true
+          cache_dependency_path: pnpm-lock.yaml
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Install dependencies
+        run: |
+          if [ "${{ github.actor }}" = "dependabot[bot]" ]; then
+            pnpm install --no-frozen-lockfile
+          else
+            pnpm install --frozen-lockfile
+          fi
+      - name: Commit lockfile fix (Dependabot only)
+        if: github.actor == 'dependabot[bot]'
+        run: |
+          if ! git diff --quiet -- pnpm-lock.yaml; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add pnpm-lock.yaml
+            git commit -m "chore: regenerate lockfile for pnpm catalog compatibility"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
+      - name: Run linter & tests in parallel
+        run: |
+          pnpm run lint:ci &
+          LINT_PID=$!
+          pnpm run test &
+          TEST_PID=$!
+          wait $LINT_PID
+          wait $TEST_PID
+      - name: Build production bundle
+        run: pnpm run build
+      - name: Deploy preview
+        id: deploy
+        run: |
+          ALIAS="pr-${{ github.event.pull_request.number }}"
+          pnpm run deploy --alias "${ALIAS}" --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_TOKEN }} --message "Deploying PR #${{ github.event.pull_request.number }}"
+      - run: echo "Published preview at ${{ env.NETLIFY_URL }}" >> $GITHUB_STEP_SUMMARY
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium --with-deps
+      - name: Run E2E tests
+        run: pnpm run test:e2e
+        continue-on-error: true
+      - name: Run Lighthouse audits
+        run: pnpm run lighthouse
+        continue-on-error: true
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: |
+            lighthouse-*.html
+            lighthouse-*.json
+            lighthouse-summary.md
+          retention-days: 30
+      - name: Prepare reports for GitHub Pages
+        if: always()
+        run: |
+          mkdir -p _site
+          cp -r playwright-report _site/playwright 2>/dev/null || true
+          cp lighthouse-index.html _site/index.html 2>/dev/null || true
+          cp lighthouse-*.html lighthouse-*.json _site/ 2>/dev/null || true
+      - name: Upload reports to GitHub Pages
+        if: always()
+        uses: actions/upload-pages-artifact@v5
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: actions/deploy-pages@v5
+        id: deployment
+      - name: Read Lighthouse summary
+        if: always()
+        id: lighthouse
+        run: |
+          if [ -f lighthouse-summary.md ]; then
+            echo "SUMMARY<<EOF" >> $GITHUB_OUTPUT
+            cat lighthouse-summary.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      - name: Comment PR with results
+        if: always()
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: execution
+          message: |
+            ### Test Results
+            Preview deployed to ${{ env.NETLIFY_URL }}
+
+            **[View Lighthouse Reports](${{ steps.deployment.outputs.page_url }})** | **[View Playwright Reports](${{ steps.deployment.outputs.page_url }}playwright)**
+
+            #### Lighthouse Audits
+            ${{ steps.lighthouse.outputs.SUMMARY || 'Lighthouse audit results are available above.' }}
