@@ -69,16 +69,14 @@ const topics: Topic[] = [
   {
     keywords: {
       en: ['computer', 'code', 'programming', 'software', 'engineer', 'developer'],
-      de: ['computer', 'code', 'programmieren', 'software', 'entwickler', 'entwicklerin'],
+      de: ['computer', 'code', 'programmieren', 'software', 'entwickler', 'entwickler'],
     },
     responses: {
       en: [
-        'A computer made a mistake on my enrollment and I went to study computers. Not a mistake, just the beginning of a beautiful friendship.',
-        'Whatever-Works is my whole philosophy. It gives me hefty opinions and I stand by every one of them.',
+        'That\'s right, Leda is a software engineer with full engineer credentials, like a diploma and stuff.',
       ],
       de: [
-        'Ein Computer hat sich bei Ledas Immatrikulation verrechnet, und dann ging sie Informatik studieren. Kein Zufall, nur der Anfang einer wundervollen Freundschaft.',
-        'Was-funktioniert ist meine ganze Philosophie. Sie gibt mir gewichtige Meinungen, und zu jeder einzelnen stehe ich.',
+        'Genau, Leda ist eine qualifizierte Softwareentwicklerin, mit einem Abschluss und alles.',
       ],
     },
   },
@@ -249,19 +247,19 @@ const topics: Topic[] = [
 
 const fallbacks: Record<Locale, string[]> = {
   en: [
+    'Why do you want to know that?',
     'No idea.',
     'I have no clue.',
     'Beats me.',
     'I know many things. Not that, though.',
-    'Why do you want to know that?',
     'What makes you curious about that?',
   ],
   de: [
+    'Warum willst Du das wissen?',
     'Keine Ahnung.',
     'Ich habe keinen Plan.',
     'Mir fällt dazu nichts ein.',
     'Ich weiß viele Dinge. Nur das nicht.',
-    'Warum willst Du das wissen?',
     'Was macht dich neugierig darauf?',
   ],
 }

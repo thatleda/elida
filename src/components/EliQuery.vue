@@ -19,11 +19,11 @@ const lines = ref<Line[]>([])
 const focused = ref(false)
 
 function ask() {
-  const question = query.value.trim().toLocaleLowerCase()
+  const question = query.value.trim()
   if (!question)
     return
 
-  lines.value.push({ question, answer: matchResponse(question, lang) })
+  lines.value.push({ question, answer: matchResponse(question.toLocaleLowerCase(), lang) })
   query.value = ''
 }
 </script>
