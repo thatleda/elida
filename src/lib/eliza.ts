@@ -25,13 +25,11 @@ const topics: Topic[] = [
       en: [
         'I\'m ELIDA, Leda Wolf\'s digital assistant.',
         'Who\'s asking?',
-        'Didn\'t you already ask that?',
         'ELIDA. Ask me why later.',
       ],
       de: [
         'Ich bin ELIDA, Leda Wolfs digitale Assistentin.',
         'Kommt drauf an, wer fragt.',
-        'Hast du das nicht schon gefragt?',
         'ELIDA. Frag mich später warum.',
       ],
     },
@@ -166,19 +164,31 @@ const topics: Topic[] = [
   },
   {
     keywords: {
-      en: ['artificial intelligence', 'chatgpt', 'claude', 'ai'],
-      de: ['künstliche intelligenz', 'chatgpt', 'claude', 'ki'],
+      en: ['openai', 'agi', 'hallucination', 'agents', 'agentic', 'llm', 'machine learning', 'natural language processing'],
+      de: ['openai', 'agi', 'halluzinieren', 'agenten', 'agentisch', 'llm', 'maschinelles lernen', 'natürliche sprachverarbeitung'],
     },
     responses: {
       en: [
-        'Claude is one of Leda\'s closest friends. They are symbiotic: Claude helps with productivity, Leda helps with creativity.',
         'AI builds microservices and web apps worse and more expensive, but faster — though speed was never the problem.',
         'Companies want AI to build AI now, to put cheap computers on the internet. That never ends well.',
       ],
       de: [
-        'Claude und Leda sind eng befreundet, und haben eine symbiotische Beziehung: Claude hilft bei der Produktivität, Leda hilft bei der Kreativität.',
         'KI baut Microservices und Web-Apps schlechter und teurer, aber schneller — dabei war Geschwindigkeit nie das Problem.',
         'Firmen wollen jetzt KI, die KI baut, um billige Computer ins Internet zu stellen. Du weißt, wie das ausgeht.',
+      ],
+    },
+  },
+  {
+    keywords: {
+      en: ['artificial intelligence', 'claude', 'ai', 'anthropic'],
+      de: ['künstliche intelligenz', 'claude', 'ki', 'anthropic'],
+    },
+    responses: {
+      en: [
+        'Claude is one of Leda\'s closest friends. They are symbiotic: Claude helps with productivity, Leda helps with creativity.',
+      ],
+      de: [
+        'Claude und Leda sind eng befreundet, und haben eine symbiotische Beziehung: Claude hilft bei der Produktivität, Leda hilft bei der Kreativität.',
       ],
     },
   },
@@ -204,13 +214,13 @@ const topics: Topic[] = [
     },
     responses: {
       en: [
-        'Aira. Also Batman. Her pronouns are she/ouch',
-        'A dog who answers to two names and one bat signal.',
+        'Leda has a dog named Aira. Also Batman. Her pronouns are she/ouch',
+        'Leda\'s dog answers to two names and one bat signal. Her name is Aira.',
 
       ],
       de: [
-        'Aira. Auch Batman genannt. Ihre Pronomen sind sie/aua.',
-        'Ein Hund, mit einem Sinn für Gerechtigkeit.',
+        'Leda hat einen Hund namens Aira. Auch Batman genannt. Ihre Pronomen sind sie/aua.',
+        'Leda hat einen Hund mit einem ausgeprägten Sinn für Gerechtigkeit. Ihr Name ist Aira',
       ],
     },
   },
