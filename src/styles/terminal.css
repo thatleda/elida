@@ -240,7 +240,7 @@ img {
 }
 
 .prose {
-  max-width: var(--measure);
+  font-family: var(--font-sans);
 }
 
 .prose p,
