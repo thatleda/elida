@@ -19,7 +19,7 @@ const lines = ref<Line[]>([])
 const focused = ref(false)
 
 function ask() {
-  const question = query.value.trim()
+  const question = query.value.trim().toLocaleLowerCase()
   if (!question)
     return
 
