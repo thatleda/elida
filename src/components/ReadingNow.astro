@@ -1,21 +1,20 @@
 ---
-import type { Locale } from '../i18n'
-import { useTranslations } from '../i18n'
-import { getReadingStatus } from '../lib/hardcover'
+import type { Locale } from "../i18n";
+import { useTranslations } from "../i18n";
+import { getReadingStatus } from "../lib/hardcover";
 
 interface Props {
-  lang: Locale
+  lang: Locale;
 }
 
-const { lang } = Astro.props
-const t = useTranslations(lang)
-const { current, challenge, lastReviewed } = await getReadingStatus()
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { current, challenge, lastReviewed } = await getReadingStatus();
 const nf = new Intl.NumberFormat(lang);
 ---
 
 {
-  current
-? (
+  current ? (
     <div class="book">
       {current.cover && (
         <img
@@ -27,27 +26,30 @@ const nf = new Intl.NumberFormat(lang);
         />
       )}
       <div>
-        <p class="label">{t('reading.title')}</p>
+        <p class="label">{t("reading.title")}</p>
         <h3>
           {current.title}
           {current.year && <span class="year"> ({current.year})</span>}
         </h3>
         <p>
-          {t('reading.by')} <em>{current.author}</em>
+          {t("reading.by")} <em>{current.author}</em>
         </p>
-        {challenge && (
-          <p class="challenge">
-            <label>
-              {challenge.description}: {challenge.progress} {t('ramblings.of')} {challenge.goal}
-              <progress max={challenge.goal} value={challenge.progress} />
-            </label>
-          </p>
-        )}
       </div>
     </div>
+  ) : (
+    <p>{t("reading.none")}</p>
   )
-: (
-    <p>{t('reading.none')}</p>
+}
+
+{
+  challenge && (
+    <p class="challenge">
+      <label>
+        {challenge.description}: {challenge.progress} {t("ramblings.of")}{" "}
+        {challenge.goal}
+        <progress max={challenge.goal} value={challenge.progress} />
+      </label>
+    </p>
   )
 }
 
@@ -64,20 +66,25 @@ const nf = new Intl.NumberFormat(lang);
         />
       )}
       <div>
-        <p class="label">{t('reading.finished')}</p>
+        <p class="label">{t("reading.finished")}</p>
         <h3>
           {lastReviewed.title}
-          {lastReviewed.year && <span class="year"> ({lastReviewed.year})</span>}
+          {lastReviewed.year && (
+            <span class="year"> ({lastReviewed.year})</span>
+          )}
         </h3>
         <p>
-          {t('reading.by')} <em>{lastReviewed.author}</em>
+          {t("reading.by")} <em>{lastReviewed.author}</em>
         </p>
         {lastReviewed.rating != null && (
           <p>
-            {t('reading.rating')}: {nf.format(lastReviewed.rating)} / 5 {t('reading.stars')}
+            {t("reading.rating")}: {nf.format(lastReviewed.rating)} / 5{" "}
+            {t("reading.stars")}
           </p>
         )}
-        {lastReviewed.reviewHtml && <div class="prose review" set:html={lastReviewed.reviewHtml} />}
+        {lastReviewed.reviewHtml && (
+          <div class="prose review" set:html={lastReviewed.reviewHtml} />
+        )}
       </div>
     </div>
   )
@@ -159,18 +166,18 @@ const nf = new Intl.NumberFormat(lang);
 </style>
 
 <script is:inline>
-(() => {
-  document.addEventListener('click', (event) => {
-    const button = event.target.closest('.spoiler-toggle')
-    if (!button)
-      return
-    const content = document.getElementById(button.getAttribute('aria-controls'))
-    if (!content)
-      return
-    const revealed = button.getAttribute('aria-expanded') === 'true'
-    button.setAttribute('aria-expanded', String(!revealed))
-    content.hidden = revealed
-    button.hidden = !revealed
-  })
-})()
+  (() => {
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest(".spoiler-toggle");
+      if (!button) return;
+      const content = document.getElementById(
+        button.getAttribute("aria-controls"),
+      );
+      if (!content) return;
+      const revealed = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!revealed));
+      content.hidden = revealed;
+      button.hidden = !revealed;
+    });
+  })();
 </script>
