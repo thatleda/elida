@@ -27,12 +27,12 @@ jobs:
       HARDCOVER_API_KEY: ${{ secrets.HARDCOVER_API_KEY }}
       NETLIFY_URL: https://ledawolf.info
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - uses: pnpm/action-setup@v6.1.0
         with:
           cache: true
           cache_dependency_path: pnpm-lock.yaml
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version: lts/*
           cache: pnpm
@@ -67,10 +67,10 @@ jobs:
           cp lighthouse-*.html lighthouse-*.json _site/ 2>/dev/null || true
       - name: Upload reports to GitHub Pages
         if: always()
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v5.0.0
       - name: Deploy to GitHub Pages
         if: always()
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v5.0.1
         id: deployment
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
