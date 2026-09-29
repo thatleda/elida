@@ -4,6 +4,7 @@
     "config:recommended"
   ],
   "timezone": "Europe/Berlin",
+  "minimumReleaseAge": "1 day",
   "schedule": [
     "before 6am every weekday"
   ],
