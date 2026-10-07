@@ -7,8 +7,7 @@ trustPolicyExclude:
   - chokidar@4.0.3
   - semver@6.3.1
   - why-is-node-running@3.2.2
-  - '@netlify/serverless-functions-api@2.23.0'
-  - '@netlify/serverless-functions-api@2.18.0'
+  - '@netlify/serverless-functions-api'
 
 packages:
   - .
@@ -35,7 +34,7 @@ catalog:
   happy-dom: 20.14.5
   lighthouse: 13.5.0
   msw: 3.0.2
-  netlify-cli: 27.10.1
+  netlify-cli: 27.11.2
   playwright: 1.63.0
   typescript: 5.9.3
   vitest: 5.0.3
@@ -50,4 +49,3 @@ allowBuilds:
 
 minimumReleaseAgeExclude:
   - '@netlify/edge-bundler@16.1.1'
-  - netlify-cli@27.10.1
