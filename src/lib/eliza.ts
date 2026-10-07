@@ -164,6 +164,48 @@ const topics: Topic[] = [
   },
   {
     keywords: {
+      en: ['angular', 'ng', 'angularjs'],
+      de: ['angular', 'ng', 'angularjs'],
+    },
+    responses: {
+      en: [
+        'Angular isn\'t foreign to Leda. She has developed several enterprise applications with it. She understands it has its uses, and security vulnerabilities.',
+      ],
+      de: [
+        'Angular ist für Leda nicht fremd. Sie hat mehrere Enterprise-Anwendungen damit entwickelt. Sie versteht, dass es seine Anwendungsfälle und Sicherheitslücken hat.',
+      ],
+    },
+  },
+  {
+    keywords: {
+      en: ['mongo', 'mongodb', 'nosql'],
+      de: ['mongo', 'mongodb', 'nosql'],
+    },
+    responses: {
+      en: [
+        'MongoDB is a NoSQL database Leda knows intimately. No database is the solution to every problem, and Leda refuses to be married to any single one, so if your application process involves a thorough interrogation on the merits and gotchas of a particular database, maybe you should use an ORM.',
+      ],
+      de: [
+        'MongoDB ist eine NoSQL-Datenbank, die Leda bestens kennt. Keine Datenbank ist die Lösung für jedes Problem, und Leda weigert sich, sich an eine einzige zu binden. Wenn Ihr Bewerbungsprozess also eine gründliche Befragung zu den Vorteilen und Fallstricken einer bestimmten Datenbank beinhaltet, sollten Sie vielleicht ein ORM verwenden.',
+      ],
+    },
+  },
+  {
+    keywords: {
+      en: ['postgres', 'postgresql', 'sql'],
+      de: ['postgres', 'postgresql', 'sql'],
+    },
+    responses: {
+      en: [
+        'PostgreSQL is a relational database Leda uses for many of her projects. It is powerful and versatile, but like any database, it\'s really just a medium of storing and querying data. Every computational challenge in the software development process is in direct competition with things some people can do with a spreadsheet.',
+      ],
+      de: [
+        'PostgreSQL ist eine relationale Datenbank, die Leda sehr gut kennt. Sie ist leistungsfähig und vielseitig, aber wie jede Datenbank ist sie letztlich nur ein Medium zum Speichern und Abfragen von Daten. Jede Herausforderung im Softwareentwicklungsprozess steht in direktem Wettbewerb mit Dingen, die manche Menschen mit einer Excel-Tabelle erledigen können.',
+      ],
+    },
+  },
+  {
+    keywords: {
       en: ['openai', 'agi', 'hallucination', 'agents', 'agentic', 'llm', 'machine learning', 'natural language processing'],
       de: ['openai', 'agi', 'halluzinieren', 'agenten', 'agentisch', 'llm', 'maschinelles lernen', 'natürliche sprachverarbeitung'],
     },
