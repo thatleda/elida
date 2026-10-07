@@ -30,7 +30,7 @@ catalog:
   eslint-plugin-astro: 3.2.1
   eslint-plugin-playwright: 2.12.1
   eslint-plugin-testing-library: 7.16.2
-  groq: 6.16.0
+  groq: 6.17.0
   happy-dom: 20.14.5
   lighthouse: 13.5.0
   msw: 3.0.2
