@@ -74,6 +74,9 @@ export const ui = {
     'resume.languages.conversational': 'Spanish, French',
     'resume.languages.basic': 'Ukrainian, Portuguese, Mandarin, Japanese',
     'resume.additional': 'Additional',
+
+    '404.title': 'Lost in the woods?',
+    '404.description': 'The page you\'ve been hunting isn\'t here.',
   },
   de: {
     'hero.tagline': 'Ich bin eine Software-Entwicklerin',
@@ -149,6 +152,9 @@ export const ui = {
     'resume.languages.conversational': 'Spanisch, Französisch',
     'resume.languages.basic': 'Ukrainisch, Portugiesisch, Mandarin, Japanisch',
     'resume.additional': 'Weiteres',
+
+    '404.title': 'Hast Du Dich verlaufen?',
+    '404.description': 'Die gesuchte Seite versteckt sich woanders.',
   },
 } as const satisfies Record<Locale, Record<string, string>>
 
