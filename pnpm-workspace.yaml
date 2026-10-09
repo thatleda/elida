@@ -16,7 +16,7 @@ catalog:
   '@antfu/eslint-config': 9.5.1
   '@astrojs/check': 0.9.10
   '@astrojs/vue': 7.0.3
-  '@playwright/test': 1.63.0
+  '@playwright/test': 1.64.0
   '@portabletext/to-html': 6.0.0
   '@portabletext/types': 4.0.2
   '@sanity/client': 8.9.0
@@ -35,7 +35,7 @@ catalog:
   lighthouse: 13.5.0
   msw: 3.0.2
   netlify-cli: 27.11.2
-  playwright: 1.63.0
+  playwright: 1.64.0
   typescript: 5.9.3
   vitest: 5.0.3
   vue: 3.5.43
