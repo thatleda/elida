@@ -5,6 +5,7 @@
   ],
   "timezone": "Europe/Berlin",
   "minimumReleaseAge": "1 day",
+  "automerge": true,
   "schedule": [
     "before 6am every weekday"
   ],
