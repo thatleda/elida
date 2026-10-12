@@ -31,9 +31,9 @@ catalog:
   eslint-plugin-playwright: 2.12.1
   eslint-plugin-testing-library: 7.16.2
   groq: 6.17.0
-  happy-dom: 20.14.5
+  happy-dom: 20.14.6
   lighthouse: 13.5.0
-  msw: 3.0.2
+  msw: 3.0.3
   netlify-cli: 27.11.2
   playwright: 1.64.0
   typescript: 5.9.3
