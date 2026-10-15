@@ -228,8 +228,8 @@ catalogs:
       specifier: 3.0.3
       version: 3.0.3
     netlify-cli:
-      specifier: 27.12.0
-      version: 27.12.0
+      specifier: 27.12.1
+      version: 27.12.1
     playwright:
       specifier: 1.64.0
       version: 1.64.0
@@ -316,7 +316,7 @@ importers:
         version: 3.0.3(@types/node@26.6.3)(graphql@16.14.2)(supports-color@11.0.0)(typescript@5.9.3)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))
       netlify-cli:
         specifier: 'catalog:'
-        version: 27.12.0(@types/node@26.6.3)(picomatch@4.0.7)(supports-color@11.0.0)
+        version: 27.12.1(@types/node@26.6.3)(picomatch@4.0.7)(supports-color@11.0.0)
       playwright:
         specifier: 'catalog:'
         version: 1.64.0
@@ -5412,8 +5412,8 @@ packages:
     resolution: {integrity: sha512-WmmLty1YWwJl9yZi77v2dVIV6X2kuYV8YYBI/G3LWGKdGHmHUvL1z7FW0iDvEvGAwNEoc5x1tOOOyDnf5jJw/w==}
     engines: {node: '>= 10'}
 
-  netlify-cli@27.12.0:
-    resolution: {integrity: sha512-FvfVyxmRpMUhU1zbvaZrhNaGefipHb2liUTc0yWb/znPKhChiKoxGF0lsUCgZuWvFV8TeNaB27iIkE0vOU0ADA==}
+  netlify-cli@27.12.1:
+    resolution: {integrity: sha512-Pd9aNEWdstTxFkvBS92CoJVSEGQdOKI73dudjbouuwgasPoaBA2UHYsGyah0aW+y7EY9L/ugtoZwXhcKvI+AhQ==}
     engines: {node: '>=22.13.0'}
     hasBin: true
 
@@ -6399,9 +6399,6 @@ packages:
   statuses@2.0.2:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
     engines: {node: '>= 0.8'}
-
-  std-env@4.2.0:
-    resolution: {integrity: sha512-oCUKSupKTHX53EyjDtuZQ64pjLJ6yYCtpmEw0goYxtjG9KpbRe8KAsl2tBUGU9DyMcJ0RwJ8GqJAFzMXcXW1Rw==}
 
   std-env@4.3.0:
     resolution: {integrity: sha512-OtU/EgQ1kIm5KwqQpBC6ZEMXrZRui11w8zgfTWp8cdO9B8OaPsbA8bTHO2P+HNo1VlUTGMVBwPhydu6poeXiag==}
@@ -12481,7 +12478,7 @@ snapshots:
       jiti: 2.7.0
       node-forge: 1.4.0
       pathe: 2.0.3
-      std-env: 4.2.0
+      std-env: 4.3.0
       tinyclip: 0.1.15
       ufo: 1.6.4
       untun: 0.2.2
@@ -13101,7 +13098,7 @@ snapshots:
 
   neotraverse@1.0.1: {}
 
-  netlify-cli@27.12.0(@types/node@26.6.3)(picomatch@4.0.7)(supports-color@11.0.0):
+  netlify-cli@27.12.1(@types/node@26.6.3)(picomatch@4.0.7)(supports-color@11.0.0):
     dependencies:
       '@fastify/static': 10.1.5
       '@inquirer/prompts': 8.7.3(@types/node@26.6.3)
@@ -14341,8 +14338,6 @@ snapshots:
   statuses@2.0.1: {}
 
   statuses@2.0.2: {}
-
-  std-env@4.2.0: {}
 
   std-env@4.3.0: {}
 
