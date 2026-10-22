@@ -14,8 +14,8 @@ packages:
 
 catalog:
   '@antfu/eslint-config': 9.5.1
-  '@astrojs/check': 0.9.11
-  '@astrojs/vue': 7.1.1
+  '@astrojs/check': 0.9.12
+  '@astrojs/vue': 7.1.2
   '@playwright/test': 1.64.1
   '@portabletext/to-html': 6.0.0
   '@portabletext/types': 4.0.2
@@ -25,7 +25,7 @@ catalog:
   '@testing-library/jest-dom': 7.0.1
   '@testing-library/user-event': 14.6.8
   '@vitest/coverage-v8': 5.0.5
-  astro: 7.4.1
+  astro: 7.4.2
   eslint: 10.13.0
   eslint-plugin-astro: 3.2.1
   eslint-plugin-playwright: 2.12.1
