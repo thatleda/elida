@@ -1,3 +1,4 @@
+import type { SharedOptions } from 'msw'
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
@@ -58,7 +59,7 @@ const server = setupServer(http.options(ENDPOINT, () => new HttpResponse(fullPay
 })))
 
 beforeAll(() => {
-  server.listen({ onUnhandledRequest: 'error' })
+  server.listen({ onUnhandledRequest: 'error' } as SharedOptions)
   vi.stubEnv('HARDCOVER_API_KEY', 'Bearer test-token')
 })
 afterEach(() => server.resetHandlers())
