@@ -8,7 +8,9 @@ function createMemoryStorage(): Storage {
     setItem: (key, value) => void store.set(key, String(value)),
     removeItem: key => void store.delete(key),
     clear: () => store.clear(),
-    key: index => [...store.keys()][index] ?? null,
+    key: index => [
+      ...store.keys(),
+    ][index] ?? null,
     get length() {
       return store.size
     },

@@ -37,5 +37,7 @@ const componentsWithImages: Partial<PortableTextHtmlComponents> = {
 export function renderBlocks(blocks: PortableTextBlock[] | null | undefined, { images = true }: { images?: boolean } = {}): string {
   if (!blocks)
     return ''
-  return toHTML(blocks, { components: images ? componentsWithImages : baseComponents })
+  return toHTML(blocks, {
+    components: images ? componentsWithImages : baseComponents,
+  })
 }

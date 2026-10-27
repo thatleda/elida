@@ -9,7 +9,18 @@ const { id, heading, headingLevel = 2 } = Astro.props
 const Heading = `h${headingLevel}` as const;
 ---
 
-<section id={id} class="panel" aria-labelledby={id && heading ? `${id}-title` : undefined}>
-  {heading && <Heading id={id ? `${id}-title` : undefined}>{heading}</Heading>}
+<section
+  id={id}
+  class="panel"
+  aria-labelledby={id && heading
+? `${id}-title`
+: undefined}
+>
+  {heading && (
+<Heading id={id
+? `${id}-title`
+: undefined}
+>{heading}</Heading>
+)}
   <slot />
 </section>

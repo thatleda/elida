@@ -13,12 +13,32 @@ const t = useTranslations(lang)
 const here = stripLocale(Astro.url.pathname).replace(/\/$/, '') || '/'
 
 const nav = [
-  { href: path('/#who', lang), label: t('nav.who') },
-  { href: path('/#previously', lang), label: t('nav.previously') },
-  { href: path('/ramblings', lang), label: t('nav.blog'), match: '/ramblings' },
-  { href: path('/#reviews', lang), label: t('nav.working-with') },
-  { href: path('/#contact', lang), label: t('nav.contact') },
-  { href: path('/resume', lang), label: t('nav.resume'), match: '/resume' },
+  {
+href: path('/#who', lang),
+label: t('nav.who'),
+},
+  {
+href: path('/#previously', lang),
+label: t('nav.previously'),
+},
+  {
+href: path('/ramblings', lang),
+label: t('nav.blog'),
+match: '/ramblings',
+},
+  {
+href: path('/#reviews', lang),
+label: t('nav.working-with'),
+},
+  {
+href: path('/#contact', lang),
+label: t('nav.contact'),
+},
+  {
+href: path('/resume', lang),
+label: t('nav.resume'),
+match: '/resume',
+},
 ];
 ---
 
@@ -34,7 +54,9 @@ const nav = [
           <li>
             <a
               href={item.href}
-              aria-current={item.match && here.startsWith(item.match) ? 'page' : undefined}
+              aria-current={item.match && here.startsWith(item.match)
+? 'page'
+: undefined}
             >
               {item.label}
             </a>
@@ -52,7 +74,9 @@ const nav = [
             href={path(here, locale)}
             lang={locale}
             hreflang={locale}
-            aria-current={locale === lang ? 'true' : undefined}
+            aria-current={locale === lang
+? 'true'
+: undefined}
           >
             {locale.toUpperCase()}
             <span class="visually-hidden"> — {localeNames[locale]}</span>
@@ -80,7 +104,9 @@ const nav = [
   }
   sync()
   btn.addEventListener('click', () => {
-    const next = root.dataset.theme === 'light' ? 'dark' : 'light'
+    const next = root.dataset.theme === 'light'
+      ? 'dark'
+      : 'light'
     root.dataset.theme = next
     try {
       localStorage.setItem('elida-theme', next)

@@ -17,8 +17,17 @@ const noCommentsRule = {
         return
       const options = context.options[0] || {}
       const allow = (options && options.allow) || []
-      const defaults = ['global', 'eslint', '@ts-', '@typescript-eslint', '\\/']
-      const re = new RegExp(String.raw`^\s?(${[...defaults, ...allow].join('|')})`)
+      const defaults = [
+        'global',
+        'eslint',
+        '@ts-',
+        '@typescript-eslint',
+        '\\/',
+      ]
+      const re = new RegExp(String.raw`^\s?(${[
+        ...defaults,
+        ...allow,
+      ].join('|')})`)
       if (comment && !re.test(comment.value)) {
         context.report({
           fix(fixer) {
@@ -68,6 +77,12 @@ export default antfu(
     ...playwright.configs['flat/recommended'],
   },
   {
-    ignores: ['dist', '.astro', '.netlify', 'playwright-report', 'test-results'],
+    ignores: [
+      'dist',
+      '.astro',
+      '.netlify',
+      'playwright-report',
+      'test-results',
+    ],
   },
 )
