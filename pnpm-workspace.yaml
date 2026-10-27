@@ -46,6 +46,3 @@ allowBuilds:
   netlify-cli: true
   sharp: true
   unix-dgram: true
-
-minimumReleaseAgeExclude:
-  - '@netlify/edge-bundler@16.1.1'
