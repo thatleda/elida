@@ -48,7 +48,14 @@ const fullPayload = {
   },
 }
 
-const server = setupServer()
+const server = setupServer(http.options(ENDPOINT, () => new HttpResponse(fullPayload, {
+  status: 200,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    'Access-Control-Allow-Headers': '*',
+  },
+})))
 
 beforeAll(() => {
   server.listen({ onUnhandledRequest: 'error' })
@@ -81,6 +88,7 @@ describe('getReadingStatus', () => {
   })
 
   it('returns an empty status when the response has no goals', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
     server.use(http.post(ENDPOINT, () => HttpResponse.json({
       data: {
         me: [
@@ -93,6 +101,7 @@ describe('getReadingStatus', () => {
   })
 
   it('returns an empty status on a GraphQL error', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
     server.use(http.post(ENDPOINT, () => HttpResponse.json({
       errors: [
         { message: 'nope' },
