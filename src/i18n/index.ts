@@ -5,7 +5,9 @@ import { ui } from './ui'
 
 export function getLocale(url: URL): Locale {
   const [, maybeLocale] = url.pathname.split('/')
-  return isLocale(maybeLocale) ? maybeLocale : defaultLocale
+  return isLocale(maybeLocale)
+    ? maybeLocale
+    : defaultLocale
 }
 
 export function useTranslations(locale: Locale) {
@@ -18,7 +20,9 @@ export function path(pathname: string, locale: Locale): string {
   const clean = `/${pathname.replace(/^\/+/, '')}`
   if (locale === defaultLocale)
     return clean
-  return clean === '/' ? `/${locale}` : `/${locale}${clean}`
+  return clean === '/'
+    ? `/${locale}`
+    : `/${locale}${clean}`
 }
 
 export function stripLocale(pathname: string): string {

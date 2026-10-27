@@ -23,7 +23,10 @@ function ask() {
   if (!question)
     return
 
-  lines.value.push({ question, answer: matchResponse(question.toLocaleLowerCase(), lang) })
+  lines.value.push({
+    question,
+    answer: matchResponse(question.toLocaleLowerCase(), lang),
+  })
   query.value = ''
 }
 </script>

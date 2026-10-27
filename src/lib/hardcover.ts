@@ -119,7 +119,9 @@ export async function getReadingStatus(): Promise<ReadingStatus> {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'authorization': key.startsWith('Bearer ') ? key : `Bearer ${key}`,
+        'authorization': key.startsWith('Bearer ')
+          ? key
+          : `Bearer ${key}`,
       },
       body: JSON.stringify({ query: READING_QUERY }),
     })
@@ -139,7 +141,9 @@ export async function getReadingStatus(): Promise<ReadingStatus> {
     const user = goal?.user
 
     return {
-      current: user?.user_books[0]?.book ? toSummary(user.user_books[0].book) : null,
+      current: user?.user_books[0]?.book
+        ? toSummary(user.user_books[0].book)
+        : null,
       challenge: goal
         ? { description: goal.description, progress: goal.progress, goal: goal.goal }
         : null,

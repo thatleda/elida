@@ -26,7 +26,12 @@ const urls: AuditTarget[] = [
   { name: 'Ramblings', url: `${baseUrl}/ramblings` },
 ]
 
-const categories = ['performance', 'accessibility', 'best-practices', 'seo'] as const
+const categories = [
+  'performance',
+  'accessibility',
+  'best-practices',
+  'seo',
+] as const
 
 async function runAudit(url: string) {
   const browser = await chromium.launch({
@@ -63,7 +68,9 @@ async function generateReport(): Promise<void> {
     const scores: Record<string, number> = {}
     for (const category of categories) {
       const score = result.lhr.categories[category]?.score
-      scores[category] = score ? Math.round(score * 100) : 0
+      scores[category] = score
+        ? Math.round(score * 100)
+        : 0
     }
 
     results.push({

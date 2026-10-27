@@ -8,7 +8,9 @@ export default defineConfig({
   site,
 
   output: 'static',
-  integrations: [vue()],
+  integrations: [
+    vue(),
+  ],
   i18n: {
     locales: ['en', 'de'],
     defaultLocale: 'en',

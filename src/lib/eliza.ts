@@ -18,8 +18,20 @@ const topics: Topic[] = [
   },
   {
     keywords: {
-      en: ['who are you', 'your name', 'eliza', 'elida', 'what are you'],
-      de: ['wer bist du', 'dein name', 'eliza', 'elida', 'was bist du'],
+      en: [
+        'who are you',
+        'your name',
+        'eliza',
+        'elida',
+        'what are you',
+      ],
+      de: [
+        'wer bist du',
+        'dein name',
+        'eliza',
+        'elida',
+        'was bist du',
+      ],
     },
     responses: {
       en: [
@@ -53,7 +65,12 @@ const topics: Topic[] = [
   {
     keywords: {
       en: ['live', 'address', 'based', 'location'],
-      de: ['lebst', 'adresse', 'wohnt', 'standort'],
+      de: [
+        'lebst',
+        'adresse',
+        'wohnt',
+        'standort',
+      ],
     },
     responses: {
       en: [
@@ -66,8 +83,22 @@ const topics: Topic[] = [
   },
   {
     keywords: {
-      en: ['computer', 'code', 'programming', 'software', 'engineer', 'developer'],
-      de: ['computer', 'code', 'programmieren', 'software', 'entwickler', 'entwickler'],
+      en: [
+        'computer',
+        'code',
+        'programming',
+        'software',
+        'engineer',
+        'developer',
+      ],
+      de: [
+        'computer',
+        'code',
+        'programmieren',
+        'software',
+        'entwickler',
+        'entwickler',
+      ],
     },
     responses: {
       en: [
@@ -206,8 +237,26 @@ const topics: Topic[] = [
   },
   {
     keywords: {
-      en: ['openai', 'agi', 'hallucination', 'agents', 'agentic', 'llm', 'machine learning', 'natural language processing'],
-      de: ['openai', 'agi', 'halluzinieren', 'agenten', 'agentisch', 'llm', 'maschinelles lernen', 'natürliche sprachverarbeitung'],
+      en: [
+        'openai',
+        'agi',
+        'hallucination',
+        'agents',
+        'agentic',
+        'llm',
+        'machine learning',
+        'natural language processing',
+      ],
+      de: [
+        'openai',
+        'agi',
+        'halluzinieren',
+        'agenten',
+        'agentisch',
+        'llm',
+        'maschinelles lernen',
+        'natürliche sprachverarbeitung',
+      ],
     },
     responses: {
       en: [
@@ -222,8 +271,18 @@ const topics: Topic[] = [
   },
   {
     keywords: {
-      en: ['artificial intelligence', 'claude', 'ai', 'anthropic'],
-      de: ['künstliche intelligenz', 'claude', 'ki', 'anthropic'],
+      en: [
+        'artificial intelligence',
+        'claude',
+        'ai',
+        'anthropic',
+      ],
+      de: [
+        'künstliche intelligenz',
+        'claude',
+        'ki',
+        'anthropic',
+      ],
     },
     responses: {
       en: [
@@ -248,7 +307,16 @@ const topics: Topic[] = [
       ],
     },
   },
-  { keywords: { en: ['work for', 'where does she work'], de: ['arbeitet', 'arbeitgeber'] }, responses: { en: ['Why? Who do YOU work for?'], de: ['Warum? Für wen arbeitest DU?'] } },
+  {
+    keywords: {
+      en: ['work for', 'where does she work'],
+      de: ['arbeitet', 'arbeitgeber'],
+    },
+    responses: {
+      en: ['Why? Who do YOU work for?'],
+      de: ['Warum? Für wen arbeitest DU?'],
+    },
+  },
   {
     keywords: {
       en: ['dog', 'pet'],
@@ -266,7 +334,16 @@ const topics: Topic[] = [
       ],
     },
   },
-  { keywords: { en: ['aira'], de: ['aira'] }, responses: { en: ['She is a German shepherd who is fluent in English.'], de: ['Sie ist ein deutscher Schäferhund, der aber auch Englisch versteht.'] } },
+  {
+    keywords: {
+      en: ['aira'],
+      de: ['aira'],
+    },
+    responses: {
+      en: ['She is a German shepherd who is fluent in English.'],
+      de: ['Sie ist ein deutscher Schäferhund, der aber auch Englisch versteht.'],
+    },
+  },
   {
     keywords: {
       en: ['thank you', 'thanks', 'thx'],
@@ -283,8 +360,20 @@ const topics: Topic[] = [
   },
   {
     keywords: {
-      en: ['hire', 'job', 'work with', 'available', 'contact'],
-      de: ['einstellen', 'job', 'zusammenarbeiten', 'verfügbar', 'kontakt'],
+      en: [
+        'hire',
+        'job',
+        'work with',
+        'available',
+        'contact',
+      ],
+      de: [
+        'einstellen',
+        'job',
+        'zusammenarbeiten',
+        'verfügbar',
+        'kontakt',
+      ],
     },
     responses: {
       en: [

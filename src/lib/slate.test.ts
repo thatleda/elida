@@ -2,13 +2,20 @@ import { describe, expect, it } from 'vitest'
 import { renderSlateReview } from './slate'
 
 function doc(children: unknown[]) {
-  return { document: { object: 'document', children } }
+  return {
+    document: { object: 'document', children },
+  }
 }
 
 describe('renderSlateReview', () => {
   it('renders paragraphs', () => {
     const html = renderSlateReview(doc([
-      { type: 'paragraph', children: [{ text: 'A good book.' }] },
+      {
+        type: 'paragraph',
+        children: [
+          { text: 'A good book.' },
+        ],
+      },
     ]))
     expect(html).toBe('<p>A good book.</p>')
   })
@@ -29,12 +36,27 @@ describe('renderSlateReview', () => {
 
   it('renders block-quotes, lists and list items', () => {
     const html = renderSlateReview(doc([
-      { type: 'block-quote', children: [{ text: 'wise words' }] },
+      {
+        type: 'block-quote',
+        children: [
+          { text: 'wise words' },
+        ],
+      },
       {
         type: 'bulleted-list',
         children: [
-          { type: 'list-item', children: [{ text: 'one' }] },
-          { type: 'list-item', children: [{ text: 'two' }] },
+          {
+            type: 'list-item',
+            children: [
+              { text: 'one' },
+            ],
+          },
+          {
+            type: 'list-item',
+            children: [
+              { text: 'two' },
+            ],
+          },
         ],
       },
     ]))
@@ -43,7 +65,12 @@ describe('renderSlateReview', () => {
 
   it('renders a spoiler as a toggle button plus hidden content', () => {
     const html = renderSlateReview(doc([
-      { type: 'paragraph', children: [{ text: 'the butler did it', spoiler: true }] },
+      {
+        type: 'paragraph',
+        children: [
+          { text: 'the butler did it', spoiler: true },
+        ],
+      },
     ]))
     expect(html).toContain('class="spoiler-toggle"')
     expect(html).toContain('hidden>the butler did it</span>')
@@ -51,14 +78,26 @@ describe('renderSlateReview', () => {
 
   it('escapes HTML in the source text', () => {
     const html = renderSlateReview(doc([
-      { type: 'paragraph', children: [{ text: '<script>alert(1)</script>' }] },
+      {
+        type: 'paragraph',
+        children: [
+          { text: '<script>alert(1)</script>' },
+        ],
+      },
     ]))
     expect(html).not.toContain('<script>')
     expect(html).toContain('&lt;script&gt;')
   })
 
   it('parses a JSON string document the same as an object', () => {
-    const asString = JSON.stringify(doc([{ type: 'paragraph', children: [{ text: 'hi' }] }]))
+    const asString = JSON.stringify(doc([
+      {
+        type: 'paragraph',
+        children: [
+          { text: 'hi' },
+        ],
+      },
+    ]))
     expect(renderSlateReview(asString)).toBe('<p>hi</p>')
   })
 

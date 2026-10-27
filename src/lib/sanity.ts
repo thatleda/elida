@@ -17,7 +17,9 @@ export const sanity = createClient(config)
 const builder = createImageUrlBuilder(sanity)
 
 export function imageUrl(source: LinkedImage | string) {
-  return builder.image(typeof source === 'string' ? source : source._id)
+  return builder.image(typeof source === 'string'
+    ? source
+    : source._id)
 }
 
 export interface ImageDimensions {

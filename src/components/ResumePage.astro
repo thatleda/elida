@@ -70,7 +70,9 @@ const resume = await getResume(lang)
                 {entry.startDate && (
                   <span>
                     {entry.startDate}
-                    {entry.endDate ? ` – ${entry.endDate}` : ''}
+                    {entry.endDate
+? ` – ${entry.endDate}`
+: ''}
                   </span>
                 )}
                 {entry.location && <span> · {entry.location}</span>}

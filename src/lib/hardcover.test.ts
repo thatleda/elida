@@ -10,7 +10,11 @@ function book(title: string, author: string, year: number) {
     title,
     release_year: year,
     image: { url: `https://example.test/${title}.jpg` },
-    contributions: [{ author: { name: author } }],
+    contributions: [
+      {
+        author: { name: author },
+      },
+    ],
   }
 }
 
@@ -24,9 +28,17 @@ const fullPayload = {
             description: '2026 reading challenge',
             goal: 100,
             user: {
-              user_books: [{ book: book('The Dispossessed', 'Ursula K. Le Guin', 1974) }],
+              user_books: [
+                {
+                  book: book('The Dispossessed', 'Ursula K. Le Guin', 1974),
+                },
+              ],
               reviews: [
-                { review_slate: null, rating: 4.5, book: book('Anxious People', 'Fredrik Backman', 2019) },
+                {
+                  review_slate: null,
+                  rating: 4.5,
+                  book: book('Anxious People', 'Fredrik Backman', 2019),
+                },
               ],
             },
           },
@@ -69,13 +81,23 @@ describe('getReadingStatus', () => {
   })
 
   it('returns an empty status when the response has no goals', async () => {
-    server.use(http.post(ENDPOINT, () => HttpResponse.json({ data: { me: [{ goals: [] }] } })))
+    server.use(http.post(ENDPOINT, () => HttpResponse.json({
+      data: {
+        me: [
+          { goals: [] },
+        ],
+      },
+    })))
 
     expect(await getReadingStatus()).toEqual({ current: null, challenge: null, lastReviewed: null })
   })
 
   it('returns an empty status on a GraphQL error', async () => {
-    server.use(http.post(ENDPOINT, () => HttpResponse.json({ errors: [{ message: 'nope' }] })))
+    server.use(http.post(ENDPOINT, () => HttpResponse.json({
+      errors: [
+        { message: 'nope' },
+      ],
+    })))
 
     expect(await getReadingStatus()).toEqual({ current: null, challenge: null, lastReviewed: null })
   })

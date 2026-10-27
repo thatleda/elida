@@ -26,7 +26,9 @@ const {
 
 const dims = image.dimensions
 const displayWidth = Math.min(dims?.width ?? 1024, widths.at(-1)!)
-const displayHeight = dims ? Math.round(displayWidth / dims.aspectRatio) : undefined
+const displayHeight = dims
+? Math.round(displayWidth / dims.aspectRatio)
+: undefined
 
 const base = imageUrl(image).auto('format').fit('max')
 const src = base.width(displayWidth).url()
@@ -48,7 +50,9 @@ const altText = alt ?? image.altText ?? '';
   loading={eager ? 'eager' : 'lazy'}
   decoding={eager ? 'sync' : 'async'}
   class:list={['sanity-image', className]}
-  style={image.lqip ? `background-image:url(${image.lqip});background-size:cover;` : undefined}
+  style={image.lqip
+? `background-image:url(${image.lqip});background-size:cover;`
+: undefined}
 />
 
 <style>

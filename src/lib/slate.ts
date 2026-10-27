@@ -47,7 +47,9 @@ function renderText(node: SlateText): string {
 }
 
 function renderChildren(children: (SlateBlockNode | SlateText)[]): string {
-  return children.map(child => (isText(child) ? renderText(child) : renderBlock(child))).join('')
+  return children.map(child => (isText(child)
+    ? renderText(child)
+    : renderBlock(child))).join('')
 }
 
 function renderBlock(block: SlateBlockNode): string {
@@ -68,7 +70,9 @@ function renderBlock(block: SlateBlockNode): string {
 }
 
 export function renderSlateReview(raw: unknown): string {
-  const doc: SlateDocument | null = typeof raw === 'string' ? JSON.parse(raw) : (raw as SlateDocument | null)
+  const doc: SlateDocument | null = typeof raw === 'string'
+    ? JSON.parse(raw)
+    : (raw as SlateDocument | null)
   const children = doc?.document?.children
   if (!children?.length)
     return ''
