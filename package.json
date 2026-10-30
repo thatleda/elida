@@ -2,7 +2,7 @@
   "name": "elida",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@12.15.0",
+  "packageManager": "pnpm@12.16.1",
   "engines": {
     "node": "26.13.0"
   },
