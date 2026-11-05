@@ -45,7 +45,7 @@ export const ui = {
     'article.published': 'published',
     'article.back': 'Back to the index',
 
-    'footer.powered': 'ELIZA-adjacent vanity',
+    'footer.tagline': 'A monument inspired by ELIZA.',
     'footer.privacy': 'Privacy',
     'footer.imprint': 'Imprint',
 
@@ -123,7 +123,7 @@ export const ui = {
     'article.published': 'veröffentlicht',
     'article.back': 'Zurück zum Index',
 
-    'footer.powered': 'ELIZA-nahe Eitelkeit',
+    'footer.tagline': 'Ein Monument inspiriert durch ELIZA.',
     'footer.privacy': 'Datenschutz',
     'footer.imprint': 'Impressum',
 
