@@ -241,8 +241,8 @@ catalogs:
       specifier: 7.16.2
       version: 7.16.2
     groq:
-      specifier: 6.20.0
-      version: 6.20.0
+      specifier: 6.22.0
+      version: 6.22.0
     happy-dom:
       specifier: 21.0.4
       version: 21.0.4
@@ -292,7 +292,7 @@ importers:
         version: 7.4.7(@netlify/blobs@11.1.6(supports-color@11.0.0))(@types/node@26.6.3)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1)
       groq:
         specifier: 'catalog:'
-        version: 6.20.0
+        version: 6.22.0
       vue:
         specifier: 'catalog:'
         version: 3.5.45(typescript@6.0.3)
@@ -4520,8 +4520,8 @@ packages:
     resolution: {integrity: sha512-Chq1s4CY7jmh8gO2qvLIJyfCDIN+EHLFW/9iShnp1z8FjBQMoodWP1kDC36VAMXXIvAjj4ARa7ntfAV2BrjsbA==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
-  groq@6.20.0:
-    resolution: {integrity: sha512-9ZuwUpovJ5qWBpW7y5ynK6zpyeeB+qhC5AgTrgoibZO1Fl6k39tB/b4nmIVG3qgOIzHapkj5ihO5DYEIXWairQ==}
+  groq@6.22.0:
+    resolution: {integrity: sha512-ZzyqGaWBl5lMfjCCdPdOXltTWlEI0fIUbPUNMxbwtMOulcGj01bHWoAOeofLP+ERh9fwLvTsmYqh4V0InNVZWg==}
     engines: {node: '>=22.12'}
 
   h3@1.15.11:
@@ -12111,7 +12111,7 @@ snapshots:
   graphql@16.14.2:
     optional: true
 
-  groq@6.20.0: {}
+  groq@6.22.0: {}
 
   h3@1.15.11:
     dependencies:
