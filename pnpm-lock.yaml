@@ -208,8 +208,8 @@ catalogs:
       specifier: 4.0.2
       version: 4.0.2
     '@sanity/client':
-      specifier: 8.15.0
-      version: 8.15.0
+      specifier: 8.15.1
+      version: 8.15.1
     '@sanity/image-url':
       specifier: 2.1.1
       version: 2.1.1
@@ -283,7 +283,7 @@ importers:
         version: 4.0.2
       '@sanity/client':
         specifier: 'catalog:'
-        version: 8.15.0(vitest@5.0.5)
+        version: 8.15.1(vitest@5.0.5)
       '@sanity/image-url':
         specifier: 'catalog:'
         version: 2.1.1
@@ -2375,8 +2375,8 @@ packages:
       rollup:
         optional: true
 
-  '@sanity/client@8.15.0':
-    resolution: {integrity: sha512-CgmNhvXCD8S0LpXr0YMPNPw0/pzzJ+WbO0vmgu0aISHo+AZDS+ke0G+xuZitqFsgUwYso9zBxJKYpoJnoUOvyA==}
+  '@sanity/client@8.15.1':
+    resolution: {integrity: sha512-/P5g4Z8HPDiI5dd8hXM4YX324/1pqN33WT/zHm28v3tGLkCxJHFjtGfgsCRa9y5OWzFZXhKhYXIXmw47SHKs+A==}
     engines: {node: '>=22.12.0'}
 
   '@sanity/image-url@2.1.1':
@@ -4416,8 +4416,8 @@ packages:
     resolution: {integrity: sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==}
     engines: {node: '>= 0.4'}
 
-  get-it@9.6.2:
-    resolution: {integrity: sha512-eAg+xPVjPXbmFL/ahF08LKmuVVC+ixXCSrb0gtaWOZ9aIsMoa0QATttbtoSoqnVSBV6nh9jCdsOk5pLhN2qUOA==}
+  get-it@9.7.0:
+    resolution: {integrity: sha512-kUpzj2TuBNzPMddmW/FdTwuBl3DQRTfF3TPt/r/9C0XnulD+EDoGOkAhyvlh6hOKJdddxSYhnLWe5c0RQrQByw==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       vitest: '>=2.0.0'
@@ -9579,10 +9579,10 @@ snapshots:
       estree-walker: 2.0.2
       picomatch: 4.0.7
 
-  '@sanity/client@8.15.0(vitest@5.0.5)':
+  '@sanity/client@8.15.1(vitest@5.0.5)':
     dependencies:
       eventsource: 5.1.5
-      get-it: 9.6.2(vitest@5.0.5)
+      get-it: 9.7.0(vitest@5.0.5)
       obug: 3.0.0
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -12023,7 +12023,7 @@ snapshots:
       hasown: 2.0.4
       math-intrinsics: 1.1.0
 
-  get-it@9.6.2(vitest@5.0.5):
+  get-it@9.7.0(vitest@5.0.5):
     dependencies:
       undici: 7.30.1
     optionalDependencies:
