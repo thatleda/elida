@@ -211,8 +211,8 @@ catalogs:
       specifier: 8.16.0
       version: 8.16.0
     '@sanity/image-url':
-      specifier: 2.1.1
-      version: 2.1.1
+      specifier: 2.2.0
+      version: 2.2.0
     '@testing-library/dom':
       specifier: 10.4.2
       version: 10.4.2
@@ -286,7 +286,7 @@ importers:
         version: 8.16.0(vitest@5.1.0)
       '@sanity/image-url':
         specifier: 'catalog:'
-        version: 2.1.1
+        version: 2.2.0
       astro:
         specifier: 'catalog:'
         version: 7.4.12(@netlify/blobs@11.1.9(supports-color@11.0.0))(@types/node@26.6.3)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1)
@@ -2355,8 +2355,8 @@ packages:
     resolution: {integrity: sha512-x6VKopU1Rt2mp3YBQRBIyWE2ebzqc4sMwUbQJJzIzNS0TMnNURvHe/z1qo/bDIph37B5vYvfWIT7Js6SPAQkUQ==}
     engines: {node: '>=22.12.0'}
 
-  '@sanity/image-url@2.1.1':
-    resolution: {integrity: sha512-qVXsF1teWR6FO3ZFAz46HDcRU+E6EQkpyncPnkGOzeJ1PgnaOiWMVbiSrZtX10s3txzzu/tAjKwbxbGHfDWgGw==}
+  '@sanity/image-url@2.2.0':
+    resolution: {integrity: sha512-6uJnWhDJMlfwsnHwlnHpUgXCo5kmH3Wv/ERXalgRJHiBhChO/UYhIBTOxdwXTP01EkeoDARn6/+e3Vf+db+JIA==}
     engines: {node: '>=20.19.0'}
 
   '@sanity/signed-urls@2.0.5':
@@ -9516,7 +9516,7 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@sanity/image-url@2.1.1':
+  '@sanity/image-url@2.2.0':
     dependencies:
       '@sanity/signed-urls': 2.0.5
 
