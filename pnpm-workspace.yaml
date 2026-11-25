@@ -23,7 +23,7 @@ catalog:
   '@sanity/client': 8.17.0
   '@sanity/image-url': 2.2.0
   '@testing-library/dom': 10.4.2
-  '@testing-library/jest-dom': 7.0.1
+  '@testing-library/jest-dom': 8.0.0
   '@testing-library/user-event': 14.6.13
   '@vitest/coverage-v8': 5.1.1
   astro: 7.4.13
